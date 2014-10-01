@@ -1,0 +1,23 @@
+<?php
+/*
+Template Name: Beer
+*/
+get_header(); ?>
+<div id='main_stage'>
+	<div id='internal_bg'>
+	<?php the_title(); ?>
+		<div id='sidebar' class='add_shadow'>
+			<div id='sidebar_title'>BEER</div>
+			<div id='sidebar_content'>
+				<ul class='sidebar_nav'>
+				<?php 
+				$id=50;//($post->post_parent ? wp_get_single_post($post->post_parent)->ID : get_the_ID()); // keep the parent ID if were in subnav
+				echo $children = wp_list_pages("title_li=&depth=3&sort_column=menu_order&child_of=$id&echo=0"); 
+				?>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<?php get_footer(); ?>
+

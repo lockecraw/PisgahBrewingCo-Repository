@@ -1,0 +1,125 @@
+/*
+Theme Name: Pisgah
+Theme URI: http://www.pisgahbrewing.com
+Description: A custom theme for Pisgah Brewing of Black Mountain, NC. Dark and rich with textured details and a strong presence.
+Version: 11.9
+Author: Media Hat & Dazlious
+Tags: pisgah
+Text Domain: pisgah
+
+	Pisgah v11.9
+
+
+	This theme was designed by Media Hat,
+	http://mediahat.net/
+
+	This theme was developed by Dazlious LLC
+	http://dazlious.com
+*/
+
+
+
+#master_container {background: #27231a url('images/wood_planks.jpg') repeat; margin: 0px; padding: 0px;}
+#main_stage {width:1000px; margin-left: auto; margin-right: auto; position: relative; padding-top: 20px; padding-bottom: 20px;}
+
+#top_banner {height: 200px; background: #0c603a url('images/banner_top.jpg') top left repeat-x;}
+
+#logo_nav {width: 960px; height: 175px; margin-left: auto; margin-right: auto; text-align: right; position: relative;}
+#logo_nav a img {width: 318px; height: 148px; }
+
+#logo {display: block; position: absolute; top: 24px; left: 11px; z-index: 10;}
+.nav {display: block; position: absolute; top: 98px; right: 0px; }
+.nav li {display: inline; list-style-type:none; margin-left: 15px;}
+.nav li a {font-family:"LeagueGothicRegular", Impact; font-size: 64px; color:#6ca68a; text-transform:uppercase;}
+
+.nav li a:hover, .nav li.current_page_item a,.nav li.current-page-ancestor a, #subnav li a:hover, #subnav li.current_page_ancestor a, #subnav li.current_page_item a,.footer_nav #menu-footer li a:hover { color:#FFFFFF; text-decoration:none;}
+
+
+
+
+#treat_yourself {position: absolute; top: 51px; right: 206px; width: 191px; height: 27px;}
+
+#index_bg {width: 960px; margin-left: auto; margin-right: auto; position: relative;} 
+
+#pod_slides {position: relative; height: 278px; width: 594px; overflow: hidden; }
+.slide_frame {width:594px; height: 278px; position: absolute; top: 0px; left: 0px;}
+.slide_banner {height: 40px; width: 594px; position: absolute; bottom: 0px; left: 0px; background-color: #000000; opacity:0.50;filter:alpha(opacity=50)}
+.slide_title {height: 40px; width: 594px; position: absolute; bottom: 0px; left: 0px; font-family:"LeagueGothicRegular",Impact; font-size: 31px; line-height: 40px; 
+ text-align: center; letter-spacing: 1px; text-transform:uppercase;}
+.slide_title a {color: #FFFFFF;}
+.slide_image {width:594px; height:278px;}
+#sidebar {position: absolute; left:614px; top: 0px; width: 345px; height: 528px;overflow: hidden; background: url('images/sidebar_background.jpg') top left no-repeat;}
+#sidebar_title {text-align: center; color:#83b79e; font-family:"LeagueGothicRegular", Impact;  font-size: 30px;  text-transform:uppercase; line-height: 40px;letter-spacing: 2px;}
+#sidebar_content {position: absolute; top: 44px; left: 0px;}
+
+.sidebar_nav {display: block; position: relative; list-style-type: none; width: 345px; top: 8px;}
+.sidebar_nav li {background: url('images/dashes-trans.png') bottom center no-repeat;}
+.sidebar_nav li a {display: block; width: 325px; font-family:"LeagueGothicRegular",Impact; font-size: 30px; line-height: 44px; color:#73716e; text-transform:uppercase; margin-left: 10px; padding-left: 26px; letter-spacing: 2px; word-spacing: -2px; }
+.sidebar_nav li a:hover {color: #6ca68a;}
+.sidebar_nav li.current_page_item a {background: url('images/sidebar_nav_bg.png') 0px 5px no-repeat; color: #ffffff;}
+.pod_rect {width: 345px; height: 230px; background-color:#555555; margin-top: 20px; overflow: hidden; position: relative; }
+.pod_square {width: 257px; height: 253px; position : absolute; left: 357px; top: 295px; overflow: hidden; }
+
+.event_listing {width: 345px; height: 69px; position: relative;  background: url('images/listing_background.jpg') top left no-repeat;}/**/
+.event_calendar {width: 40px; height: 57px; position: absolute; top: 8px; left: 8px;}
+.date_background {width: 40px; height: 57px; position: absolute; top: 0px; left: 0px;}
+	.event_month {position: absolute; top: 0px; left: 0px; height: 18px; width: 38px; font-family: "Arial Black", Impact, sans-serif; font-size: 14px; text-align: center; color: #FFFFFF; text-transform: uppercase; }
+	.event_date {position: absolute; top: 14px; left: 0px; height: 18px; width: 38px; font-family: "Arial Black", Impact, sans-serif; font-size: 24px; text-align: center; color:#7b9789; }
+	.event_day {position: absolute; bottom: 0px; left: 1px; width: 38px; font-family: "Arial Black", Impact, sans-serif; font-size: 12px; text-align: center; color:#7b9789;text-transform: uppercase; letter-spacing: 1px;}
+.event_title { width: 220px; color:#6ca68a; font-family:"LeagueGothicRegular", Impact;  font-size: 20px;  text-transform:uppercase; line-height: 25px; position: absolute; left: 56px; top:10px; height: 54px; width: 260px; text-align: left; word-spacing: 1px; letter-spacing: 1px; }
+.event_title a {color: #464542; margin-top: 10px;}
+
+.event_time {position: absolute; top: 19px; right: 8px;  font-family: "Arial", sans-serif; font-size: 12px; font-weight: bold; color: #464542;}
+.event_tix {position: absolute; top: 40px; right: 8px; }
+
+#internal_bg {width: 960px; margin-left: auto; margin-right: auto; z-index:5;  overflow: show; position: relative;  min-height: 528px; }
+
+#internal_copy {position: relative; z-index: 5;left: 50px; top: 10px; width: 540px; padding-bottom: 20px; min-height:325px;}
+#internal_copy p {font-family: "Georgia",serif; font-size: 18px; margin-top: 10px; margin-bottom: 23px; line-height: 24px; }
+
+.beer_post {width: 595px; height: 190px; margin-bottom: 10px; background: url('images/beer_post_bg.jpg') top left no-repeat;}
+a.beer_thumb {display: block; position: absolute; top:20px; left:20px; }
+a.beer_thumb img {width: 150px; height: 150px; }
+a.beer_name {display: block; position: absolute; bottom: 120px; left: 190px; width: 385px; font-family:"LeagueGothicRegular", Impact;  font-size: 30px;  text-transform:uppercase; }
+a.beer_excerpt {}
+a.beer_link {}
+
+
+.nav li a.on { color:#FFFFFF;}
+
+#internal_sticker {position: absolute; bottom:36px;right:63px; width: 278px; height: 280px; z-index:2;}
+
+#bottom_banner {height: 170px; background: #0c603a url('images/banner_bottom.jpg') top left repeat-x; position: relative;}
+.footer_nav {margin-right: auto; margin-left: auto; text-align: center;  width: 550px;  position:relative;  top:32px; z-index: 2; margin-bottom: 27px;}
+.footer_nav #menu-footer {display: block; font-weight:normal; }
+.footer_nav #menu-footer li {display: inline; list-style-type:none; margin-left: 11px; margin-right: 11px;}
+.footer_nav #menu-footer li a {font-family:"LeagueGothicRegular", Impact; font-size: 31px; color:#6ca68a; text-transform:uppercase;}
+
+#contact_links {height: 50px; text-align: right; width: 940px; margin-left: auto; margin-right: auto; position: absolute; top:32px; z-index: 1; margin-bottom:27px;}
+#contact_links a img {margin-left: 6px;}
+#footer {color:#6ca68a;  font-family: Times New Roman, Serif; font-size: 14px; font-weight:bold;  width:960px; margin-left: auto; margin-right: auto; text-align: center; word-spacing:1px; line-height:40px;}
+#footer a {color:#6ca68a; text-decoration:none;}
+#footer a:hover {color: #ffffff;}
+
+.add_shadow {	box-shadow:		4px 5px 5px rgba(0,0,0,0.5);
+		-o-box-shadow:		4px 5px 5px rgba(0,0,0,0.5);
+		-moz-box-shadow:	4px 5px 5px rgba(0,0,0,0.5);
+		-webkit-box-shadow:	4px 5px 5px rgba(0,0,0,0.5);
+			}
+.white {color: #FFFFFF !important;}
+a {text-decoration: none;}
+a:active,a:focus {  outline: none;}
+a img{border: none;}
+
+h2 {font-family:"LeagueGothicRegular";  font-size: 31px; font-weight: normal; display: inline;  text-transform:uppercase;}
+body {margin: 0px; padding: 0px; background: #27231a;}
+
+#menu-default, ul {-webkit-margin-before:0px; -webkit-margin-after:0px; -webkit-padding-start:0px; margin: 0px; padding: 0px;}
+
+.hidden {visibility: hidden;}
+.gone {display: none;}
+
+/*	"Let's groove tonight 
+	Share the spice of life 
+	Baby slice it right 
+	We're gonna groove tonight" */

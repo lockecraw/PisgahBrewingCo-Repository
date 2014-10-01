@@ -1,0 +1,6 @@
+[26-Feb-2012 19:07:39] PHP Warning:  Invalid argument supplied for foreach() in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 34
+[26-Feb-2012 19:07:39] PHP Warning:  Division by zero in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 43
+[10-Sep-2012 10:41:39] PHP Warning:  Invalid argument supplied for foreach() in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 34
+[10-Sep-2012 10:41:39] PHP Warning:  Division by zero in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 43
+[17-Apr-2013 00:10:45 America/New_York] PHP Warning:  Invalid argument supplied for foreach() in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 34
+[17-Apr-2013 00:10:45 America/New_York] PHP Warning:  Division by zero in /home/pisgahb/public_html/wp-content/plugins/fotobook/styles/lightbox/album.php on line 43

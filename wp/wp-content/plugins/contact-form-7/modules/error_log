@@ -1,0 +1,14 @@
+[26-Feb-2013 21:27:42 America/New_York] PHP Fatal error:  Call to undefined function add_action() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/jetpack.php on line 3
+[26-Feb-2013 21:28:41 America/New_York] PHP Fatal error:  Call to undefined function add_action() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/flamingo.php on line 7
+[19-Apr-2013 11:00:39 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/textarea.php on line 8
+[19-Apr-2013 11:00:50 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/text.php on line 8
+[19-Apr-2013 11:01:02 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/file.php on line 8
+[19-Apr-2013 11:01:14 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/quiz.php on line 8
+[19-Apr-2013 11:01:27 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/submit.php on line 8
+[19-Apr-2013 11:02:50 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/select.php on line 8
+[19-Apr-2013 11:06:17 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/captcha.php on line 8
+[19-Apr-2013 11:15:14 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/checkbox.php on line 8
+[19-Apr-2013 11:17:16 America/New_York] PHP Fatal error:  Call to undefined function add_filter() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/akismet.php on line 7
+[19-Apr-2013 11:20:49 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/response.php on line 8
+[19-Apr-2013 11:22:16 America/New_York] PHP Fatal error:  Call to undefined function wpcf7_add_shortcode() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/acceptance.php on line 8
+[19-Apr-2013 11:25:05 America/New_York] PHP Fatal error:  Call to undefined function add_filter() in /home/pisgahb/public_html/wp-content/plugins/contact-form-7/modules/special-mail-tags.php on line 6

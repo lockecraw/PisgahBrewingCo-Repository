@@ -1,0 +1,3 @@
+[24-Apr-2012 19:43:50] PHP Fatal error:  Call to undefined function get_header() in /home/pisgahb/public_html/wp-content/themes/pisgah/index.php on line 7
+[24-Apr-2012 19:44:02] PHP Fatal error:  Call to undefined function get_header() in /home/pisgahb/public_html/wp-content/themes/pisgah/index.php on line 7
+[09-Jan-2013 15:44:52 America/New_York] PHP Fatal error:  Call to undefined function add_theme_support() in /home/pisgahb/public_html/wp-content/themes/pisgah/functions.php on line 9

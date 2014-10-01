@@ -1,0 +1,70 @@
+
+#master_container {background: #27231a url('../sprites/pisgah_bg.jpg') repeat-x; margin: 0px; padding: 0px; min-height: 980px;}
+#main_stage {width:1000px; margin-left: auto; margin-right: auto; position: relative; }
+
+#logo_nav {width: 960px; height: 175px; margin-left: auto; margin-right: auto; text-align: right; position: relative;}
+#logo_nav a img {width: 318px; height: 148px;}
+
+#logo {display: block; position: absolute; top: 13px; left: 10px;}
+#nav {display: block; position: absolute; top: 58px; right: 0px; }
+#nav li {display: inline; list-style-type:none; margin-left: 15px;}
+#nav li a {font-family:"LeagueGothicRegular", Impact; font-size: 64px; color:#6ca68a;}
+#nav li a:hover, #nav li a.on { color:#FFFFFF; text-decoration:none;}
+
+#subnav {display:block; position: absolute; top: 135px; left: 319px; width: 624px; text-align: left;}
+#subnav li {display: inline; list-style-type:none; color:#6ca68a; font-family:"LeagueGothicRegular", Impact;  font-size: 25px;}
+
+#subnav li a {color:#6ca68a; font-family:"LeagueGothicRegular", Impact;  font-size: 25px; margin-top: 2px; display:inline;  word-spacing: 1px; } 
+#subnav li a.middle {margin-left: 13px; margin-right: 13px;}
+#subnav li a.right { margin-left: 13px; margin-right: none !important;}
+#subnav li a.left {margin-left: none !important;  margin-right: 13px;}
+
+
+#subnav li a:hover, #nav li a.on { color:#FFFFFF; text-decoration:none;}
+
+#treat_yourself {position: absolute; top: 33px; right: 207px; width: 216px; height: 36px;}
+
+#index_bg {width: 960px; margin-left: auto; margin-right: auto; position: relative;} 
+
+#pod_slides {position: relative; height: 357px; width: 590px; }
+#slide_banner {height: 61px; width: 590px; position: absolute; bottom: 0px; left: 0px; background-color: #016A3A; opacity:0.75;filter:alpha(opacity=75)}
+#slide_title {height: 61px; width: 590px; position: absolute; bottom: 0px; left: 0px; font-family:"LeagueGothicRegular",Impact; font-size: 31px; line-height: 61px; color: #FFFFFF; text-align: center; letter-spacing: 1px;}
+#pod_schedule {position: absolute; left:610px; top: 0px; width: 350px; height: 595px;}
+.pod_rect {width: 340px; height: 218px; background-color:#555555; margin-top: 20px; }
+.pod_square {width: 230px; height: 218px; background-color:#555555; position : absolute; left: 360px; bottom: 0px; }
+
+#internal_bg {width: 1000px; margin-left: auto; margin-right: auto; z-index:5; margin-top: 30px; overflow: show; background: url('../sprites/internal_bg_middle.png') top center repeat-y; position: relative; }
+#internal_top {position: absolute; top: -10px; left:0px; width: 1000px; height: 141px; background: url('../sprites/internal_bg_top.png') top center no-repeat; z-index:1;}
+#internal_middle {margin-top: 140px; background: url('../sprites/internal_bg_middle.png') top center no-repeat; z-index: 2; margin-bottom: -120px;}
+#internal_bottom {position: absolute; bottom: -10px; left: 0px; width: 1000px; height: 141px; background: url('../sprites/internal_bg_bottom.png') top center no-repeat; }
+
+#internal_copy {position: relative; z-index: 5;left: 50px; top: 10px; width: 540px; padding-bottom: 20px;}
+#internal_copy p {font-family: "Georgia",serif; font-size: 18px; margin-top: 10px; margin-bottom: 23px; line-height: 24px; }
+#internal_image {position: relative; z-index: 5; position: relative; top: 12px; left:25px;}
+
+#internal_sidebar_right {position: absolute; top: 5px; right: 27px; width: 355px; height: 357px; z-index: 5; }
+#sidebar_bg{position: absolute; top: 0px; left: 11px;}
+.right_sidebar_nav {position: absolute; top: 2px; width:355px; height: 308px; z-index: 6; padding: 0px; margin-top: 20px; }
+.right_sidebar_nav li {list-style-type:none;  word-spacing: 1px; width: 355px; height: 77px; position: relative;}
+.right_sidebar_nav li a {display: block; width: 355px; height: 81px; line-height: 81px; position: absolute; top:0px; left: 0px; font-family:"LeagueGothicRegular", Impact; font-size: 31px; color:#000000; padding-left: 40px;}
+/*.right_sidebar_nav li a.on { color:#FFFFFF; text-decoration:none; background: url('../sprites/sidebar_overlay-trans.png') 1px 0px no-repeat;}/**/
+#nav li a.on { color:#FFFFFF;}
+#internal_sticker {position: absolute; bottom:-314px;left:36px; width: 278px; height: 280px;}
+#footer {color: #a8a8a6;  font-family: Arial; width:960px; margin-left: auto; margin-right: auto; text-align: justify; margin-top: 20px; word-spacing: 5px;}
+#footer a {color: #016a3a; text-decoration:underline; font-weight:bold;  }
+#footer a:hover, #footer a:visited {color: #016a3a;}
+
+.add_shadow {box-shadow: 			4px 5px 5px #000;
+			-o-box-shadow:			4px 5px 5px #000;
+			-moz-box-shadow:		4px 5px 5px #000;
+			-webkit-box-shadow:	4px 5px 5px #000;
+			}
+
+a {text-decoration: none;}
+a img{border: none;}
+
+h2 {font-family:"LeagueGothicRegular";  font-size: 31px; font-weight: normal; display: inline;}
+body {margin: 0px; padding: 0px; background: #27231a;}
+
+
+

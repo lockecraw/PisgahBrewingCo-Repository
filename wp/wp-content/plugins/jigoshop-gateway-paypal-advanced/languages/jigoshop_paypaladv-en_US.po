@@ -1,0 +1,210 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jigoshop PayPal Advanced\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-24 07:30+0530\n"
+"PO-Revision-Date: 2012-11-24 07:31+0530\n"
+"Last-Translator: wajid <king4u_7@yahoo.com>\n"
+"Language-Team: 1 <kiran@limecuda.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: India\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../templates\n"
+"X-Poedit-SearchPath-2: ../js\n"
+
+#: ../class-jigo-paypal-advanced.php:19
+#: ../class-jigo-paypal-advanced.php:438
+msgid "PayPal Advanced"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:72
+msgid "Please enter your PayPal Advanced Account Login ID"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:77
+msgid "Please enter your PayPal Advanced Account Reseller ID"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:82
+msgid "Please enter your PayPal Advanced Account Password"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:126
+#, php-format
+msgid "PayPal Advanced payment completed (Order ID: %s). But needs to Inquiry transaction to have confirmation that it is actually paid."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:156
+#: ../class-jigo-paypal-advanced.php:367
+msgid "There was a problem connecting to the payment gateway."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:159
+#: ../class-jigo-paypal-advanced.php:370
+msgid "Empty response."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:170
+#, php-format
+msgid "Received result of Inquiry Transaction for the  (Order ID: %s) and is successful"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:192
+#: ../class-jigo-paypal-advanced.php:389
+#: ../class-jigo-paypal-advanced.php:590
+msgid "Error:"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:196
+msgid "Payment failed via PayPal Advanced because of"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:278
+#, php-format
+msgid "Order %s"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:284
+#: ../class-jigo-paypal-advanced.php:334
+msgid "Shipping via"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:381
+msgid "There was an error processing your order."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:425
+msgid "Gateway Disabled"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:425
+msgid "PayPal Advanced does support USD only."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:439
+msgid "PayPal Payments Advanced uses an iframe to seamlessly integrate PayPal hosted pages into the checkout process."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:448
+msgid "Enable PayPal Advanced"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:452
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:452
+msgid "Title"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:458
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:458
+msgid "Description"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:464
+msgid "Enter your PayPal Advanced merchant login ID that you created when you registered the account."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:464
+msgid "Login ID"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:470
+msgid "Enter your PayPal Advanced reseller ID. If you purchased the account directly from PayPal, use PayPal."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:470
+msgid "Reseller ID"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:476
+msgid "Enter your PayPal Advanced user account for this site. Leave this blank if you have not setup multiple users on your PayPal  Advanced account."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:476
+msgid "User"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:482
+msgid "Enter your PayPal Advanced account password."
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:482
+msgid "Password"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:488
+msgid "PayPal sandbox"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:494
+msgid "Transaction Type"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:497
+msgid "Authorization"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:498
+msgid "Sale"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:503
+msgid "Layout"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:506
+msgid "Layout A"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:507
+msgid "Layout B"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:508
+msgid "Layout C"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:514
+msgid "PayPal Manager Set Up"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:515
+msgid "Copy the following URL to the field labeled <strong>Enter Return URL</strong>"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:516
+msgid "Copy the following URL to the field labeled <strong>Enter Error URL</strong>"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:517
+msgid "Please Use <strong>https</strong> instead of http in the above URLs, if your site is using SSL"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:561
+msgid "Minimum order total is 0.50"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:579
+#, php-format
+msgid "Secured Token generated successfully for the order #%s"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:615
+#, php-format
+msgid "Show payment form(IFRAME) for the order #%s as it is configured to use Layout C"
+msgstr ""
+
+#: ../class-jigo-paypal-advanced.php:628
+msgid "Show payment form redirecting to "
+msgstr ""
+
