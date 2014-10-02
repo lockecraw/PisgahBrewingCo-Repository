@@ -1,38 +1,4 @@
-(function($) {
-
-	// On document Load
-	$(function() {
-
-		$('.backorders_field').hide();
-
-		// Set up tabs
-		jigoshop_start_tabs();
-
-		// Setup options
-		jigoshop_product_type_options();
-
-		// Set up jigoshop sale datepicker
-		jigoshop_sale_picker();
-
-		// Jigoshop stock options
-		jigoshop_stock_options();
-
-		// Sortables
-		jigoshop_sortables();
-
-		// Orders
-		jigoshop_orders();
-
-		// Attributes
-		jigoshop_attributes();
-
-		// File Upload
-		jigoshop_file_upload();
-
-		// Ensure a tax class is set on products
-		jigoshop_default_product_taxclass();
-	});
-
+jQuery(function($) {
 	function jigoshop_start_tabs() {
 		var $tabs = $('.tabs');
 
@@ -77,12 +43,6 @@
 		}).change();
 	}
 
-	function jigoshop_default_product_taxclass() {
-		var $taxclasses = $('.tax_classes_field input');
-		// the first tax class will always be 'standard', turn it on if no tax class selected
-		if (! $taxclasses.is(':checked')) $taxclasses.eq(0).attr('checked', true);
-	}
-
 	function jigoshop_sale_picker() {
 		// Sale price schedule
 		var sale_schedule_set = false;
@@ -112,11 +72,11 @@
 			$('.sale_schedule').show();
 			$('.sale_price_dates_fields').slideUp(100, function() {
 				var option = this.id == "sale_price_dates_from" ? "minDate" : "maxDate";
-				$(this).closest('p').find('input').datepicker( "option", option, null ).val(null);
+				$(this).closest('p').find('input').datetimepicker( "option", option, null ).val(null);
 			});
 		});
 
-		var dates = $( "#sale_price_dates_from, #sale_price_dates_to" ).datepicker({
+		var dates = $( "#sale_price_dates_from, #sale_price_dates_to" ).datetimepicker({
 			dateFormat: 'yy-mm-dd',
 			gotoCurrent: true,
 			hideIfNoPrevNext: true,
@@ -129,7 +89,7 @@
 						instance.settings.dateFormat ||
 						$.datepicker._defaults.dateFormat,
 						selectedDate, instance.settings );
-				dates.not( this ).datepicker( "option", option, date );
+				dates.not( this ).datetimepicker( "option", option, date );
 			}
 		});
 	}
@@ -162,7 +122,7 @@
 
 	function jigoshop_orders() {
 
-		$('#order_items_list button.remove_row').live('click', function(e) {
+		$(document.body).on('click', '#order_items_list button.remove_row', function(e) {
 			e.preventDefault();
 			var answer = confirm(jigoshop_params.remove_item_notice);
 			if (answer){
@@ -170,11 +130,11 @@
 			}
 		});
 
-		$('button.calc_totals').live('click', function(e) {
+		$(document.body).on('click', 'button.calc_totals', function(e) {
 			e.preventDefault();
 			var answer = confirm( jigoshop_params.cart_total );
 			if ( answer ){
-				
+
 				// stuff the normal round function, we'll return it at end of function
 				// replace with alternative, still doesn't work across diff browsers though
 				// TODO: we shouldn't be doing any tax calcs in javascript
@@ -186,8 +146,8 @@
 					var coefficient = Math.pow( 10, precision );
 					return Math._round( number * coefficient ) / coefficient;
 				}
-				
-				var taxBeforeDiscount = "<?php Jigoshop_Base::get_options()->get_option('jigoshop_tax_after_coupon'); ?>";
+
+				var taxBeforeDiscount = "<?php Jigoshop_Base::get_options()->get('jigoshop_tax_after_coupon'); ?>";
 				var itemTotal = 0;
 				var subtotal = 0;
 				var totalTax = 0;
@@ -218,35 +178,35 @@
 						totalItemCost = parseFloat( itemCost * itemQty );
 
 						if ( itemTax && itemTax > 0 ) {
-							
+
 							// get tax rate into a decimal value
 							taxRate = itemTax / Math.pow(10,2);
-							
+
 							// this will give 4 decimal places or precision
 							itemTax = itemCost * taxRate;
-							
+
 							// round to 3 decimal places
 							itemTax1 = Math.round( itemTax, 3 );
-							
+
 							// round again to 2 decimal places
 							finalItemTax = Math.round( itemTax1, 2 );
-							
+
 							// get the total tax for the product including quantities
 							totalItemTax = finalItemTax * itemQty;
 
 						}
-						
+
 						// total the tax across all products
 						totalTax = totalTax + totalItemTax;
-						
+
 						// total all products without tax
 						subtotal = subtotal + totalItemCost;
 
 					}
 				}
-				
+
 				totalTax = totalTax + parseFloat(shipping_tax);
-				
+
 				// total it all up
 				if ( taxBeforeDiscount == 'no' )
 					total = parseFloat(subtotal) - parseFloat(discount) + parseFloat(totalTax) + parseFloat(shipping);
@@ -259,14 +219,12 @@
 				$('input#order_tax').val( totalTax.toFixed(2) );
 				$('input#order_shipping_tax').val( shipping_tax.toFixed(2) );
 				$('input#order_total').val( total.toFixed(2) );
-				
+
 				Math.round = Math._round;   // return normal round function we altered at the start of function
 			}
-
 		});
 
-
-		$('button.billing-same-as-shipping').live('click', function(e){
+		$(document.body).on('click', 'button.billing-same-as-shipping', function(e){
 			e.preventDefault();
 			var answer = confirm(jigoshop_params.copy_billing);
 			if (answer){
@@ -289,8 +247,9 @@
 				$('table.jigoshop_order_items').block({ message: null, overlayCSS: { background: '#fff url(' + jigoshop_params.assets_url + '/assets/images/ajax-loader.gif) no-repeat center', opacity: 0.6 } });
 
 				var data = {
-					action: 		'jigoshop_add_order_item',
+					action: 		  'jigoshop_add_order_item',
 					item_to_add: 	item_id,
+					item_no:      $('#order_items_list').children.length,
 					security: 		jigoshop_params.add_order_item_nonce
 				};
 
@@ -321,12 +280,12 @@
 		$(jigoshop_attributes_table_items).each( function(idx, itm) { $('.jigoshop_attributes_wrapper').append(itm); } );
 
 		// Polyfill for custom attributes not closing
-		$('.custom .handle, .custom .handlediv').live('click', function(){
+		$(document.body).on('click', '.custom .handle, .custom .handlediv', function(){
 			$(this).parent().toggleClass('closed');
 		});
 
 		// Custom attributes autogenerate name
-		$('.attribute-name').live('keyup', function(e) {
+		$(document.body).on('keyup', '.attribute-name', function(e) {
 
 			if( ! $(this).val() )
 				val = 'Custom Attribute';
@@ -337,7 +296,7 @@
 		});
 
 		// Remove attribute
-		$('button.hide_row').live('click', function(e) {
+		$(document.body).on('click', 'button.hide_row', function(e) {
 			e.preventDefault();
 			var answer = confirm(jigoshop_params.confirm_remove_attr)
 			if (answer){
@@ -370,7 +329,7 @@
 
 			if (!attribute) {
 				var size = $('.attribute').size();
-				
+
 				// Add custom attribute row
 				var $custom_panel = $('\
 					<div class="postbox attribute custom">\
@@ -464,28 +423,36 @@
 	}
 
 	function jigoshop_file_upload() {
-		$('.upload_file_button').click( function(e) {
-
-			// Disable default action
+		$('.upload_file_button').on('click', function(e){
 			e.preventDefault();
-
-			// Set up variables
-			var $this   = $(this);
-			    $file   = $this.prev();
-			    post_id = $this.data('postid');
-
-			window.send_to_editor = function(html) {
-
-				// Attach the file URI to the relevant
-				$file.val( $(html).attr('href') );
-
-				// Hide thickbox
-				tb_remove();
+			var $this = $(this);
+			var $field = $this.prev();
+			if(!this.bound){
+				$this.jigoshop_media({
+					field: false,
+					bind: false,
+					callback: function(attachment){
+						$field.val(attachment.changed.url);
+					}
+				});
+				this.bound = true;
 			}
-
-			// Show thickbox
-			tb_show('', 'media-upload.php?post_id=' + post_id + '&type=downloadable_product&from=jigoshop_product&TB_iframe=true');
+			$(this).trigger('jigoshop_media');
 		});
 	}
 
-})(window.jQuery);
+	var $product_type = $('select#product-type');
+	if ($product_type.length) {
+		$product_type.select2({ width: '200px' });
+		$('.backorders_field').hide();
+		jigoshop_product_type_options();
+		jigoshop_sale_picker();
+		jigoshop_stock_options();
+		jigoshop_sortables();
+	}
+
+	jigoshop_start_tabs();
+	jigoshop_orders();
+	jigoshop_attributes();
+	jigoshop_file_upload();
+});

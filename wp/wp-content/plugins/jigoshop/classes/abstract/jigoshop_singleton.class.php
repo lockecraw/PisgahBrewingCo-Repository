@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Core
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 abstract class Jigoshop_Singleton extends Jigoshop_Base {
@@ -37,7 +37,7 @@ abstract class Jigoshop_Singleton extends Jigoshop_Base {
 
     }
 	public static function reset() {
-		self::$instance = null;	
+		self::$instance = null;
 	}
 
 	public function __clone() {

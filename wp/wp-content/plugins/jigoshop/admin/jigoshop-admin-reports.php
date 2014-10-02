@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright Â© 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 if (!function_exists ('add_action')) {
@@ -42,7 +42,7 @@ class Jigoshop_reports {
 		$after  = date('Y-m-d', $start_date);
 		$before = date('Y-m-d', strtotime('+1 day', $end_date));
 
-		$where .= " AND post_date > '$after'";
+		$where .= " AND post_date >= '$after'";
 		$where .= " AND post_date < '$before'";
 
 		return $where;
@@ -60,24 +60,15 @@ class Jigoshop_reports {
 					  : strtotime(date('Ymd', current_time('timestamp')));
 
 		$args = array(
-			'numberposts'      => -1,
-			'orderby'          => 'post_date',
-			'order'            => 'ASC',
-			'post_type'        => 'shop_order',
-			'post_status'      => 'publish' ,
-			'suppress_filters' => 0,
-			'tax_query'        => array(
-				array(
-					'taxonomy' => 'shop_order_status',
-					'terms'    => array('completed'),
-					'field'    => 'slug',
-					'operator' => 'IN'
-				)
-			)
+			'numberposts' => -1,
+			'orderby' => 'post_date',
+			'order' => 'ASC',
+			'post_type' => 'shop_order',
+			'post_status' => 'publish',
+			'suppress_filters'=> false,
 		);
 
 		return get_posts( $args );
-
 	}
 
 	function on_show_page() {
@@ -91,9 +82,9 @@ class Jigoshop_reports {
 			<form method="post" action="admin.php?page=jigoshop_reports">
 				<p>
 					<label for="from"><?php _e('From:', 'jigoshop'); ?></label>
-					<input class="date-pick" type="date" name="start_date" id="from" readonly="readonly" value="<?php echo esc_attr( date('Y-m-d', $start_date) ); ?>" />
+					<input class="date-pick" type="date" name="start_date" id="from" value="<?php echo esc_attr( date('Y-m-d', $start_date) ); ?>" />
 					<label for="to"><?php _e('To:', 'jigoshop'); ?></label>
-					<input type="date" class="date-pick" name="end_date" id="to" readonly="readonly" value="<?php echo esc_attr( date('Y-m-d', $end_date) ); ?>" />
+					<input type="date" class="date-pick" name="end_date" id="to" value="<?php echo esc_attr( date('Y-m-d', $end_date) ); ?>" />
 					<?php do_action('jigoshop_report_form_fields'); ?>
 					<input type="submit" class="button" value="<?php _e('Show', 'jigoshop'); ?>" />
 				</p>
@@ -135,14 +126,15 @@ h6{font-size:11px;color:#999999;text-transform:uppercase;}
 
 				<div class="span3 thumbnail">
 					<h2><?php _e('Top Earners','jigoshop'); ?></h2>
+					<div id="top_earners_pie_keys" style="margin-top:20px;"></div>
 					<div id="top_earners_pie" style="height:300px"></div>
 					<?php $this->jigoshop_top_earners(); ?>
 					<?php echo $this->jigoshop_pie_charts('top_earners_pie'); ?>
-					<div id="plothover"></div>
 				</div>
 
 				<div class="span3 thumbnail">
 					<h2><?php _e('Most Sold','jigoshop'); ?></h2>
+					<div id="most_sold_pie_keys" style="margin-top:20px;"></div>
 					<div id="most_sold_pie" style="height:300px"></div>
 					<?php $this->jigoshop_most_sold(); ?>
 					<?php echo $this->jigoshop_pie_charts('most_sold_pie'); ?>
@@ -163,6 +155,8 @@ h6{font-size:11px;color:#999999;text-transform:uppercase;}
 					<h3><?php _e('Total Sales','jigoshop'); ?></h3>
 				</div>
 
+				<?php do_action('jigoshop_report_widgets', $this->orders); ?>
+
 			</div>
 		</div>
 
@@ -179,56 +173,45 @@ function jigoshop_pie_charts($id = '') {
 	if (empty($id)) return false;
 
 	$total = array_sum($this->pie_products);
-
+	if ($total != 0){
 	$values = array();
-	foreach ($this->pie_products as $name => $sales) $values[] = '{ label: "'.esc_attr(mb_substr($name, 0, 20)).'", data: '. (round($sales/$total, 3)*100).'}';
+	foreach ($this->pie_products as $name => $sales) $values[] = '{ label: "'.esc_attr(mb_substr($name, 0, 40)).'", data: '. (round($sales/$total, 3)*100).'}';
 
 ?>
 <script type="text/javascript">
 /* <![CDATA[ */
-jQuery(function(){
-
-	function pieHover(event, pos, obj) {
-
-		if (!obj) return;
-		percent = parseFloat(obj.series.percent).toFixed(2);
-		jQuery("#plothover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
-	}
-
+jQuery(function($){
 	var data = [
-
 		<?php echo implode(',', $values); ?>
-
 	];
-	jQuery.plot(jQuery("#<?php echo $id; ?>"), data, {
+	$.plot($("#<?php echo $id; ?>"), data, {
 		series: {
 			pie: {
 				show: true,
 				combine: {
 					color: '#999',
-					threshold: 0.08
+					threshold: 0.045 /* rounding up for 5% */
 				},
 				radius: 1,
 				label: {
 					show: true,
 					radius: 2/3,
 					formatter: function(label, series){
-						return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
-					},
+						return '<div style="font-size:8pt;text-align:center;padding:2px;color:black;">'+Math.round(series.percent)+'%</div>';
+					}
 				}
 			}
 		},
 		legend: {
-		show: true
+			show: true,
+			container: $("#<?php echo $id; ?>").prev()
 		}
 	});
-	//jQuery("#top_earners_pie").bind("plothover", pieHover);
-	//jQuery("#top_earners_pie").bind("plotclick", pieClick);
 });
 /* ]]> */
 </script>
 <?php
-
+	}
 }
 
 	function jigoshop_total_orders() {
@@ -257,12 +240,15 @@ jQuery(function(){
 
 		asort($found_products);
 		$found_products = array_reverse($found_products, true);
-		$found_products = array_slice($found_products, 0, 25, true);
+//		$found_products = array_slice($found_products, 0, 25, true);
 		reset($found_products);
+
+		$this->pie_products = array();
 
 		?>
 
 		<table class="table table-condensed">
+			<?php $total_sold = 0; ?>
 			<thead>
 				<tr>
 					<th><?php _e('Product', 'jigoshop'); ?></th>
@@ -278,10 +264,17 @@ jQuery(function(){
 						<tr>
 							<td><?php echo $product_name; ?></td>
 							<td><?php echo $qty; ?></td>
+							<?php $total_sold += $qty; ?>
 						</tr>
 					<?php endforeach; ?>
 
 			</tbody>
+			<tfoot>
+				<tr>
+					<th><?php _e('Total Products Sold', 'jigoshop'); ?></th>
+					<th><?php echo $total_sold; ?></th>
+				</tr>
+			</tfoot>
 		</table>
 	<?php
 
@@ -294,12 +287,8 @@ jQuery(function(){
 
 		if ($this->orders) :
 			foreach ($this->orders as $order) :
-// 				$order_items = (array) get_post_meta( $order->ID, 'order_items', true );
-// 				foreach ($order_items as $item) :
-// 					$row_cost[] = $item['cost'] * $item['qty'];
-// 				endforeach;
 				$order_data = (array) get_post_meta( $order->ID, 'order_data', true );
-				$row_cost[] = $order_data['order_total'];
+				$row_cost[] = apply_filters('jigoshop_reports_order_total_cost', $order_data['order_total'], $order);
 			endforeach;
 		endif;
 
@@ -339,7 +328,7 @@ jQuery(function(){
 				$order_items = (array) get_post_meta( $order->ID, 'order_items', true );
 				foreach ($order_items as $item) :
 					if ( !isset($item['cost']) || !isset($item['qty'])) continue;
-					$row_cost = $item['cost']; /* this is total final cost multiplied by quantities */
+					$row_cost = apply_filters('jigoshop_reports_order_item_cost', $item['cost'], $item, $order); /* this is total final cost multiplied by quantities */
 					$found_products[$item['id']] = isset($found_products[$item['id']]) ? $found_products[$item['id']] + $row_cost : $row_cost;
 				endforeach;
 			endforeach;
@@ -347,7 +336,7 @@ jQuery(function(){
 
 		asort($found_products);
 		$found_products = array_reverse($found_products, true);
-		$found_products = array_slice($found_products, 0, 25, true);
+//		$found_products = array_slice($found_products, 0, 25, true);
 		reset($found_products);
 
 		$this->pie_products = array();
@@ -355,6 +344,7 @@ jQuery(function(){
 		?>
 
 		<table class="table table-condensed">
+			<?php $total_sales = 0; ?>
 			<thead>
 				<tr>
 					<th><?php _e('Product', 'jigoshop'); ?></th>
@@ -370,93 +360,24 @@ jQuery(function(){
 						<tr>
 							<td><?php echo $product_name; ?></td>
 							<td><?php echo jigoshop_price($sales); ?></td>
+							<?php $total_sales += $sales; ?>
 						</tr>
 					<?php endforeach; ?>
 
 			</tbody>
+			<tfoot>
+				<tr>
+					<th><?php _e('Total Sales', 'jigoshop'); ?></th>
+					<th><?php echo jigoshop_price($total_sales); ?></th>
+				</tr>
+			</tfoot>
 		</table>
 	<?php
 	}
 
 	/**
-	*
-	*	Stock Reports
-	*
-	*/
-
-	function jigoshop_dash_stock_report() {
-		if (Jigoshop_Base::get_options()->get_option('jigoshop_manage_stock')=='yes') :
-
-			$lowstockamount = Jigoshop_Base::get_options()->get_option('jigoshop_notify_low_stock_amount');
-			if (!is_numeric($lowstockamount)) $lowstockamount = 1;
-
-			$nostockamount = Jigoshop_Base::get_options()->get_option('jigoshop_notify_no_stock_amount');
-			if (!is_numeric($nostockamount)) $nostockamount = 1;
-
-			$outofstock = array();
-			$lowinstock = array();
-			$args = array(
-				'post_type'	=> 'product',
-				'post_status' => 'publish',
-				'ignore_sticky_posts'	=> 1,
-				'posts_per_page' => -1
-			);
-			$my_query = new WP_Query($args);
-			if ($my_query->have_posts()) : while ($my_query->have_posts()) : $my_query->the_post();
-
-				$_product = new jigoshop_product( $my_query->post->ID );
-				if (!$_product->managing_stock()) continue;
-
-				$thisitem = '<tr class="first">
-					<td class="first b"><a href="post.php?post='.$my_query->post->ID.'&action=edit">'.$_product->stock.'</a></td>
-					<td class="t"><a href="post.php?post='.$my_query->post->ID.'&action=edit">'.$my_query->post->post_title.'</a></td>
-				</tr>';
-
-				if ($_product->stock<=$nostockamount) :
-					$outofstock[] = $thisitem;
-					continue;
-				endif;
-
-				if ($_product->stock<=$lowstockamount) $lowinstock[] = $thisitem;
-
-			endwhile; endif;
-			wp_reset_query();
-
-			if (sizeof($lowinstock)==0) :
-				$lowinstock[] = '<tr><td colspan="2">'.__('No products are low in stock.', 'jigoshop').'</td></tr>';
-			endif;
-			if (sizeof($outofstock)==0) :
-				$outofstock[] = '<tr><td colspan="2">'.__('No products are out of stock.', 'jigoshop').'</td></tr>';
-			endif;
-			?>
-			<div id="jigoshop_right_now" class="jigoshop_right_now">
-				<div class="table table_content">
-					<p class="sub"><?php _e('Low Stock', 'jigoshop'); ?></p>
-					<table>
-						<tbody>
-							<?php echo implode('', $lowinstock); ?>
-						</tbody>
-					</table>
-				</div>
-				<div class="table table_discussion">
-					<p class="sub"><?php _e('Out of Stock/Backorders', 'jigoshop'); ?></p>
-					<table>
-						<tbody>
-							<?php echo implode('', $outofstock); ?>
-						</tbody>
-					</table>
-				</div>
-				<br class="clear"/>
-			</div>
-	<?php endif;
-	}
-
-	/**
-	*
-	*	Monthly Report
-	*
-	*/
-
+	 *	Monthly Report
+	 */
 	function jigoshop_dash_monthly_report() {
 
 		global $start_date, $end_date;
@@ -524,10 +445,12 @@ jQuery(function(){
 								$order_counts[$time] = 1;
 							endif;
 
+							$order_total = apply_filters('jigoshop_reports_order_total_cost', $order_data->order_total, $order);
+
 							if (isset($order_amounts[$time])) :
-								$order_amounts[$time] = $order_amounts[$time] + $order_data->order_total;
+								$order_amounts[$time] = $order_amounts[$time] + $order_total;
 							else :
-								$order_amounts[$time] = (float) $order_data->order_total;
+								$order_amounts[$time] = (float) $order_total;
 							endif;
 
 						endforeach;
@@ -577,7 +500,7 @@ jQuery(function(){
 						tickLength: 1,
 						minTickSize: [1, "day"]
 					},
-					yaxes: [ { min: 0, tickSize: 1, tickDecimals: 0 }, { position: "right", min: 0, tickDecimals: 2 } ],
+					yaxes: [ { min: 0, tickDecimals: 0 }, { position: "right", min: 0, tickDecimals: 2 } ],
 					colors: ["#21759B", "#ed8432"]
 				});
 
@@ -631,5 +554,3 @@ jQuery(function(){
 <?php
 	}
 }
-
-?>

@@ -12,9 +12,9 @@
  *
  * @package             Jigoshop
  * @category            Customer
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 class jigoshop_orders extends Jigoshop_Base {
 

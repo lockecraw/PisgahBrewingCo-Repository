@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Checkout
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -28,22 +28,22 @@ add_filter( 'jigoshop_payment_gateways', 'add_bank_transfer_gateway', 20 );
 class jigoshop_bank_transfer extends jigoshop_payment_gateway {
 
 	public function __construct() {
-	
+
         parent::__construct();
-		
+
         $this->id				= 'bank_transfer';
         $this->icon 			= '';
         $this->has_fields 		= false;
-		$this->enabled			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_enabled');
-		$this->title 			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_title');
-		$this->description 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_description');
-		$this->bank_name 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_bank_name');
-		$this->acc_number 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_acc_number');
-		$this->sort_code 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_sort_code');
-		$this->account_holder 	= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_account_holder');
-		$this->iban 			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_iban');
-		$this->bic 				= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_bic');
-		$this->additional 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_additional');
+		$this->enabled			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_enabled');
+		$this->title 			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_title');
+		$this->description 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_description');
+		$this->bank_name 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_bank_name');
+		$this->acc_number 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_acc_number');
+		$this->sort_code 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_sort_code');
+		$this->account_holder 	= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_account_holder');
+		$this->iban 			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_iban');
+		$this->bic 				= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_bic');
+		$this->additional 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_additional');
 
     	add_action( 'thankyou_bank_transfer', array(&$this, 'thankyou_page') );
     }
@@ -54,14 +54,14 @@ class jigoshop_bank_transfer extends jigoshop_payment_gateway {
 	 *
 	 * These will be installed on the Jigoshop_Options 'Payment Gateways' tab by the parent class 'jigoshop_payment_gateway'
 	 *
-	 */	
+	 */
 	protected function get_default_options() {
-	
+
 		$defaults = array();
-		
+
 		// Define the Section name for the Jigoshop_Options
 		$defaults[] = array( 'name' => __('Bank Transfer', 'jigoshop'), 'type' => 'title', 'desc' => __('Accept Bank Transfers as a method of payment. There is no automated process associated with this, you must manually process an order when you receive payment.', 'jigoshop') );
-		
+
 		// List each option in order of appearance with details
 		$defaults[] = array(
 			'name'		=> __('Enable Bank Transfer','jigoshop'),
@@ -75,7 +75,7 @@ class jigoshop_bank_transfer extends jigoshop_payment_gateway {
 				'yes'			=> __('Yes', 'jigoshop')
 			)
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Method Title','jigoshop'),
 			'desc' 		=> '',
@@ -84,7 +84,7 @@ class jigoshop_bank_transfer extends jigoshop_payment_gateway {
 			'std' 		=> __('Bank Transfer Payment','jigoshop'),
 			'type' 		=> 'text'
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Customer Message','jigoshop'),
 			'desc' 		=> '',
@@ -214,15 +214,15 @@ class jigoshop_bank_transfer extends jigoshop_payment_gateway {
 	 **/
 	public static function get_bank_details() {
 
-		$title 			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_title');
-		$description 	= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_description');
-		$bank_name 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_bank_name');
-		$acc_number 	= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_acc_number');
-		$account_holder = Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_account_holder');
-		$sort_code 		= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_sort_code');
-		$iban 			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_iban');
-		$bic 			= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_bic');
-		$additional 	= Jigoshop_Base::get_options()->get_option('jigoshop_bank_transfer_additional');
+		$title 			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_title');
+		$description 	= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_description');
+		$bank_name 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_bank_name');
+		$acc_number 	= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_acc_number');
+		$account_holder = Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_account_holder');
+		$sort_code 		= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_sort_code');
+		$iban 			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_iban');
+		$bic 			= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_bic');
+		$additional 	= Jigoshop_Base::get_options()->get('jigoshop_bank_transfer_additional');
 
 		$bank_info = null;
 		if ($description) $bank_info .= wpautop(wptexturize($description)) . PHP_EOL;

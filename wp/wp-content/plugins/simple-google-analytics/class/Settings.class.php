@@ -13,6 +13,8 @@
 			'sga_multidomain_domain',
 			'sga_code_location',
 			'sga_render_when_loggedin',
+			'sga_track_links_downloads',
+			'sga_demographic_and_interest',
 		) ;
 		
 		

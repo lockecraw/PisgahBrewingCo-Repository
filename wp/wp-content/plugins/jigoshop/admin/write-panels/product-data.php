@@ -12,9 +12,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -55,9 +55,27 @@ function jigoshop_product_data_box() {
 	wp_nonce_field( 'jigoshop_save_data', 'jigoshop_meta_nonce' );
 
 	$thepostid = $post->ID;
+
+	// Product Type
+	$terms = get_the_terms( $thepostid, 'product_type' );
+	$product_type = ($terms) ? current($terms)->slug : 'simple';
+	$product_type_selector = apply_filters( 'jigoshop_product_type_selector', array(
+			'simple'		=> __('Simple', 'jigoshop'),
+			'downloadable'	=> __('Downloadable', 'jigoshop'),
+			'grouped'		=> __('Grouped', 'jigoshop'),
+			'virtual'		=> __('Virtual', 'jigoshop'),
+			'variable'		=> __('Variable', 'jigoshop'),
+			'external'		=> __('External / Affiliate', 'jigoshop')
+	));
+	$product_type_select = '<div class="product-type-label">'.__('Product Type', 'jigoshop').'</div><select id="product-type" name="product-type"><optgroup label="' . __('Product Type', 'jigoshop') . '">';
+	foreach ( $product_type_selector as $value => $label ) {
+		$product_type_select .= '<option value="' . $value . '" ' . selected( $product_type, $value, false ) .'>' . $label . '</option>';
+	}
+	$product_type_select .= '</optgroup></select><div class="clear"></div>';
 	?>
 
 	<div class="panels">
+		<span class="jigoshop_product_data_type"><?php echo $product_type_select; ?></span>
 		<ul class="product_data_tabs tabs" style="display:none;">
 			<li class="general_tab active">
 				<a href="#general"><?php _e('General', 'jigoshop'); ?></a>
@@ -67,7 +85,7 @@ function jigoshop_product_data_box() {
 				<a href="#tax"><?php _e('Advanced', 'jigoshop') ?></a>
 			</li>
 
-			<?php if (Jigoshop_Base::get_options()->get_option('jigoshop_manage_stock') == 'yes') : ?>
+			<?php if (Jigoshop_Base::get_options()->get('jigoshop_manage_stock') == 'yes') : ?>
 			<li class="inventory_tab">
 				<a href="#inventory"><?php _e('Inventory', 'jigoshop'); ?></a>
 			</li>
@@ -82,37 +100,44 @@ function jigoshop_product_data_box() {
 			</li>
 
 			<li class="file_tab">
-				<a href="#files"><?php _e('File', 'jigoshop') ?></a>
+				<a href="#files"><?php _e('Download', 'jigoshop') ?></a>
 			</li>
 
 			<?php do_action('jigoshop_product_write_panel_tabs'); ?>
-			<?php do_action('product_write_panel_tabs'); // Legacy ?>
+			<?php do_action('product_write_panel_tabs'); ?>
 		</ul>
 
 		<div id="general" class="panel jigoshop_options_panel">
 			<fieldset>
 			<?php
-				// Product Type
-				$terms = get_the_terms( $thepostid, 'product_type' );
-				$product_type = ($terms) ? current($terms)->slug : 'simple';
-
+				// Visibility
 				$args = array(
-					'id'            => 'product-type',
-					'label'         => __('Product Type', 'jigoshop'),
-					'options'       => apply_filters( 'jigoshop_product_type_selector', array(
-						'simple'		=> __('Simple', 'jigoshop'),
-						'downloadable'	=> __('Downloadable', 'jigoshop'),
-						'grouped'		=> __('Grouped', 'jigoshop'),
-						'virtual'		=> __('Virtual', 'jigoshop'),
-						'variable'		=> __('Variable', 'jigoshop'),
-						'external'		=> __('External / Affiliate', 'jigoshop')
-					)),
-					'selected'      => $product_type,
+					'id'            => 'product_visibility',
+					'label'         => __('Visibility','jigoshop'),
+					'options'       => array(
+						'visible'	    => __('Catalog & Search','jigoshop'),
+						'catalog'	    => __('Catalog Only','jigoshop'),
+						'search'	    => __('Search Only','jigoshop'),
+						'hidden'	    => __('Hidden','jigoshop')
+					),
+					'selected'      => get_post_meta( $post->ID, 'visibility', true )
 				);
 				echo Jigoshop_Forms::select( $args );
 
+				// Featured
+				$args = array(
+					'id'            => 'featured',
+					'label'         => __('Featured?','jigoshop'),
+					'desc'          => __('Enable this option to feature this product', 'jigoshop'),
+					'value'         => false
+				);
+				echo Jigoshop_Forms::checkbox( $args );
+			?>
+			</fieldset>
+			<fieldset>
+			<?php
 				// SKU
-				if ( Jigoshop_Base::get_options()->get_option('jigoshop_enable_sku') !== 'no' ) {
+				if ( Jigoshop_Base::get_options()->get('jigoshop_enable_sku') !== 'no' ) {
 					$args = array(
 						'id'            => 'sku',
 						'label'         => __('SKU','jigoshop'),
@@ -153,14 +178,15 @@ function jigoshop_product_data_box() {
 				$sale_price_dates_from = get_post_meta($thepostid, 'sale_price_dates_from', true);
 				$sale_price_dates_to = get_post_meta($thepostid, 'sale_price_dates_to', true);
 
+				echo '<p class="form-field sale_price_dates_fields">'.__('Current time:', 'jigoshop').' '.current_time('Y-m-d H:i').'</p>';
 				echo '	<p class="form-field sale_price_dates_fields">
 							<label for="' . esc_attr( $field['id'] ) . '_from">'.$field['label'].'</label>
 							<input type="text" class="short date-pick" name="' . esc_attr( $field['id'] ) . '_from" id="' . esc_attr( $field['id'] ) . '_from" value="';
-				if ($sale_price_dates_from) echo date('Y-m-d', $sale_price_dates_from);
-				echo '" placeholder="' . __('From', 'jigoshop') . ' (' . date('Y-m-d'). ')" maxlength="10" />
+				if ($sale_price_dates_from) echo date('Y-m-d H:i', $sale_price_dates_from);
+				echo '" placeholder="' . __('From', 'jigoshop') . ' (' . date('Y-m-d H:i'). ')" maxlength="16" />
 							<input type="text" class="short date-pick" name="' . esc_attr( $field['id'] ) . '_to" id="' . esc_attr( $field['id'] ) . '_to" value="';
-				if ($sale_price_dates_to) echo date('Y-m-d', $sale_price_dates_to);
-				echo '" placeholder="' . __('To', 'jigoshop') . ' (' . date('Y-m-d'). ')" maxlength="10" />
+				if ($sale_price_dates_to) echo date('Y-m-d H:i', $sale_price_dates_to);
+				echo '" placeholder="' . __('To', 'jigoshop') . ' (' . date('Y-m-d H:i'). ')" maxlength="16" />
 							<a href="#" class="cancel_sale_schedule">'.__('Cancel', 'jigoshop').'</a>
 						</p>';
 			?>
@@ -169,15 +195,7 @@ function jigoshop_product_data_box() {
 
 			<fieldset>
 			<?php
-				// Featured
-				$args = array(
-					'id'            => 'featured',
-					'label'         => __('Featured?','jigoshop'),
-					'desc'          => __('Enable this option to feature this product', 'jigoshop'),
-					'value'         => false
-				);
-				echo Jigoshop_Forms::checkbox( $args );
-
+				// External products
 				$args = array(
 					'id'            => 'external_url',
 					'label'         => __( 'Product URL', 'jigoshop' ),
@@ -187,6 +205,7 @@ function jigoshop_product_data_box() {
 				echo Jigoshop_Forms::input( $args );
 			?>
 			</fieldset>
+			<?php do_action('jigoshop_product_general_panel'); ?>
 		</div>
 		<div id="tax" class="panel jigoshop_options_panel">
 			<fieldset id="tax_fieldset">
@@ -217,7 +236,7 @@ function jigoshop_product_data_box() {
 	            	$checked = checked(in_array('*', $selections), true, false);
 
 	            	printf('<label %s><input type="checkbox" name="tax_classes[]" value="%s" %s/> %s</label>'
-								, !empty($checked) || $selections[0] == '' ? 'class="selected"' : ''
+								, !empty($checked) ? 'class="selected"' : ''
 								, '*'
 								, $checked
 								, __('Standard', 'jigoshop'));
@@ -242,15 +261,15 @@ function jigoshop_product_data_box() {
 				</p>
 			</fieldset>
 
-			<?php if( Jigoshop_Base::get_options()->get_option('jigoshop_enable_weight') !== 'no' || Jigoshop_Base::get_options()->get_option('jigoshop_enable_dimensions', true) !== 'no' ): ?>
+			<?php if( Jigoshop_Base::get_options()->get('jigoshop_enable_weight') !== 'no' || Jigoshop_Base::get_options()->get('jigoshop_enable_dimensions', true) !== 'no' ): ?>
 			<fieldset id="form_fieldset">
 			<?php
 				// Weight
-				if( Jigoshop_Base::get_options()->get_option('jigoshop_enable_weight') !== 'no' ) {
+				if( Jigoshop_Base::get_options()->get('jigoshop_enable_weight') !== 'no' ) {
 					$args = array(
 						'id'            => 'weight',
 						'label'         => __( 'Weight', 'jigoshop' ),
-						'after_label'   => ' ('.Jigoshop_Base::get_options()->get_option('jigoshop_weight_unit').')',
+						'after_label'   => ' ('.Jigoshop_Base::get_options()->get('jigoshop_weight_unit').')',
 						'type'          => 'number',
 						'step'          => 'any',
 						'placeholder'   => '0.00',
@@ -259,13 +278,13 @@ function jigoshop_product_data_box() {
 				}
 
 				// Dimensions
-				if( Jigoshop_Base::get_options()->get_option('jigoshop_enable_dimensions', true) !== 'no' ) {
+				if( Jigoshop_Base::get_options()->get('jigoshop_enable_dimensions', true) !== 'no' ) {
 					echo '
 					<p class="form-field dimensions_field">
-						<label for"product_length">'. __('Dimensions', 'jigoshop') . ' ('.Jigoshop_Base::get_options()->get_option('jigoshop_dimension_unit').')' . '</label>
-						<input type="number" step="any" name="length" class="short" value="' . get_post_meta( $thepostid, 'length', true ) . '" placeholder="'. _e('Length', 'jigoshop') . '" />
-						<input type="number" step="any" name="width" class="short" value="' . get_post_meta( $thepostid, 'width', true ) . '" placeholder="'. _e('Width', 'jigoshop') . '" />
-						<input type="number" step="any" name="height" class="short" value="' . get_post_meta( $thepostid, 'height', true ) . '" placeholder="'. _e('Height', 'jigoshop') . '" />
+						<label for"product_length">'. __('Dimensions', 'jigoshop') . ' ('.Jigoshop_Base::get_options()->get('jigoshop_dimension_unit').')' . '</label>
+						<input type="number" step="any" name="length" class="short" value="' . get_post_meta( $thepostid, 'length', true ) . '" placeholder="'. __('Length', 'jigoshop') . '" />
+						<input type="number" step="any" name="width" class="short" value="' . get_post_meta( $thepostid, 'width', true ) . '" placeholder="'. __('Width', 'jigoshop') . '" />
+						<input type="number" step="any" name="height" class="short" value="' . get_post_meta( $thepostid, 'height', true ) . '" placeholder="'. __('Height', 'jigoshop') . '" />
 					</p>
 					';
 				}
@@ -273,24 +292,6 @@ function jigoshop_product_data_box() {
 			</fieldset>
 			<?php endif; ?>
 
-			<fieldset>
-			<?php
-				// Visibility
-				$args = array(
-					'id'            => 'product_visibility',
-					'label'         => __('Visibility','jigoshop'),
-					'options'       => array(
-						'visible'	    => __('Catalog & Search','jigoshop'),
-						'catalog'	    => __('Catalog Only','jigoshop'),
-						'search'	    => __('Search Only','jigoshop'),
-						'hidden'	    => __('Hidden','jigoshop')
-					),
-					'selected'      => get_post_meta( $post->ID, 'visibility', true )
-				);
-				echo Jigoshop_Forms::select( $args );
-			?>
-			</fieldset>
-			
 			<fieldset>
 			<?php
 				// Customizable
@@ -304,7 +305,7 @@ function jigoshop_product_data_box() {
 					'selected'      => get_post_meta( $post->ID, 'customizable', true ),
 				);
 				echo Jigoshop_Forms::select( $args );
-				
+
 				// Customizable length
 				$args = array(
 					'id'            => 'customized_length',
@@ -316,10 +317,11 @@ function jigoshop_product_data_box() {
 				echo Jigoshop_Forms::input( $args );
 			?>
 			</fieldset>
-			
+			<?php do_action('jigoshop_product_tax_panel'); ?>
+
 		</div>
-		
-		<?php if (Jigoshop_Base::get_options()->get_option('jigoshop_manage_stock')=='yes') : ?>
+
+		<?php if (Jigoshop_Base::get_options()->get('jigoshop_manage_stock')=='yes') : ?>
 		<div id="inventory" class="panel jigoshop_options_panel">
 			<fieldset>
 			<?php
@@ -374,6 +376,7 @@ function jigoshop_product_data_box() {
 			echo '</div>';
 			?>
 			</fieldset>
+			<?php do_action('jigoshop_product_inventory_panel'); ?>
 		</div>
 		<?php endif; ?>
 
@@ -428,6 +431,7 @@ function jigoshop_product_data_box() {
 			);
 			echo Jigoshop_Forms::input( $args );
 			?>
+			<?php do_action('jigoshop_product_grouped_panel'); ?>
 		</div>
 
 		<div id="files" class="panel jigoshop_options_panel">
@@ -452,10 +456,11 @@ function jigoshop_product_data_box() {
 				'desc'          => __( 'Leave blank for unlimited re-downloads', 'jigoshop' ),
 			);
 			echo Jigoshop_Forms::input( $args );
-			
+
 			do_action( 'additional_downloadable_product_type_options' );
 			?>
 			</fieldset>
+			<?php do_action('jigoshop_product_files_panel'); ?>
 		</div>
 
 		<?php do_action('jigoshop_product_write_panels'); ?>
@@ -479,8 +484,7 @@ function attributes_display() { ?>
 			    	foreach ($attribute_taxonomies as $tax) :
 						$label = ($tax->attribute_label) ? $tax->attribute_label : $tax->attribute_name;
 						$attributes = (array) get_post_meta($post->ID, 'product_attributes', true);
-						$disabled = disabled( array_key_exists( sanitize_title( $label ), $attributes ), true, false );
-						echo '<option value="'.esc_attr( sanitize_title($tax->attribute_name) ).'"'.$disabled.' data-type="'.esc_attr( $tax->attribute_type ).'">'.esc_attr( $label ).'</option>';
+						echo '<option value="'.esc_attr( sanitize_title($tax->attribute_name) ).'" data-type="'.esc_attr( $tax->attribute_type ).'">'.esc_attr( $label ).'</option>';
 			    	endforeach;
 			    endif;
 			?>
@@ -510,64 +514,32 @@ function display_attribute() {
 
 	// This is whats applied to the product
 	$attributes = get_post_meta($post->ID, 'product_attributes', true);
-	?>
-	<!--    Disabling Demo attribute help display for 1.3 per support personnel request     -JAP-   -->
-	<!--?php if( ! $attributes ): ?-->
-		<!--div class="demo attribute">
-			<a href="http://forum.jigoshop.com/kb" target="_blank" class="overlay"><span><?php _e('Learn how to set up Product Attributes', 'jigoshop'); ?></span></a>
-			<div class="inside">
-				<div class="postbox attribute">
-					<button type="button" class="hide_row button">Remove</button>
-					<div class="handlediv" title="Click to toggle"><br></div>
-					<h3 class="handle">Size</h3>
 
-					<div class="inside">
-						<table>
-							<tr>
-								<td class="options">
-									<input type="text" class="attribute-name" value="Size" disabled="disabled" />
-
-									<div>
-										<label>
-											<input type="checkbox" value="1" checked="checked" />
-											Display on product page
-										</label>
-
-									</div>
-								</td>
-								<td class="value">
-									<select>
-										<option>Choose an option&hellip;</option>
-									</select>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div-->
-	<!--?php endif; ?-->
-	<?php
 	$i = -1;
 	foreach ($attribute_taxonomies as $tax) :
-		
+
 		$i++;
+		$attribute = array();
 
 		$attribute_taxonomy_name = sanitize_title($tax->attribute_name);
 		if (isset($attributes[$attribute_taxonomy_name])) $attribute = $attributes[$attribute_taxonomy_name];
-		$position = (isset($attribute['position'])) ? $attribute['position'] : 0;
+		$position = (isset($attribute['position'])) ? $attribute['position'] : -1;
 
-		$allterms = wp_get_object_terms( $post->ID, 'pa_'.$attribute_taxonomy_name, array( 'orderby' => 'slug' ) );
+		if ( $position >= 0 ) {
+			$allterms = wp_get_object_terms( $post->ID, 'pa_'.$attribute_taxonomy_name, array( 'orderby' => 'slug' ) );
+		} else {
+			$allterms = array();
+		}
+		$has_terms = ! ( is_wp_error( $allterms ) || empty( $allterms ) );
 
-		$has_terms = ( is_wp_error( $allterms ) || !$allterms || sizeof( $allterms ) == 0 ) ? 0 : 1;
 		$term_slugs = array();
-		if ( !is_wp_error( $allterms ) && $allterms ) :
+		if ( ! is_wp_error($allterms) && ! empty($allterms) ) :
 			foreach ($allterms as $term) :
 				$term_slugs[] = $term->slug;
 			endforeach;
 		endif;
 		?>
-	
+
 		<div class="postbox attribute <?php if ( $has_terms ) echo 'closed'; ?> <?php echo esc_attr( $attribute_taxonomy_name ); ?>" data-attribute-name="<?php echo esc_attr( $attribute_taxonomy_name ); ?>" rel="<?php echo $position; ?>"  <?php if ( !$has_terms ) echo 'style="display:none"'; ?>>
 			<button type="button" class="hide_row button"><?php _e('Remove', 'jigoshop'); ?></button>
 			<div class="handlediv" title="<?php _e('Click to toggle', 'jigoshop') ?>"><br></div>
@@ -575,32 +547,31 @@ function display_attribute() {
 			<?php $label = ($tax->attribute_label) ? $tax->attribute_label : $tax->attribute_name;
 			echo esc_attr ( $label ); ?>
 			</h3>
-	
+
 			<input type="hidden" name="attribute_names[<?php echo $i; ?>]" value="<?php echo esc_attr( sanitize_title ( $tax->attribute_name ) ); ?>" />
 			<input type="hidden" name="attribute_is_taxonomy[<?php echo $i; ?>]" value="1" />
 			<input type="hidden" name="attribute_enabled[<?php echo $i; ?>]" value="1" />
 			<input type="hidden" name="attribute_position[<?php echo $i; ?>]" class="attribute_position" value="<?php echo esc_attr( $position ); ?>" />
-	
+
 			<div class="inside">
 				<table>
 					<tr>
 						<td class="options">
 							<input type="text" class="attribute-name" name="attribute_names[<?php echo $i; ?>]" value="<?php echo esc_attr( $label ); ?>" disabled="disabled" />
-	
+
 							<div>
 								<label>
-									<input type="checkbox" <?php checked(boolval( isset($attribute) ? $attribute['visible'] : 1 ), true); ?> name="attribute_visibility[<?php echo $i; ?>]" value="1" /><?php _e('Display on product page', 'jigoshop'); ?>
+									<input type="checkbox" <?php checked(boolval( isset($attribute['visible']) ? $attribute['visible'] : 1 ), true); ?> name="attribute_visibility[<?php echo $i; ?>]" value="1" /><?php _e('Display on product page', 'jigoshop'); ?>
 								</label>
-	
+
 								<?php if ($tax->attribute_type!="select") : // always disable variation for select elements ?>
 								<label class="attribute_is_variable">
-									<input type="checkbox" <?php checked(boolval( isset($attribute) ? $attribute['variation'] : 0 ), true); ?> name="attribute_variation[<?php echo $i; ?>]" value="1" /><?php _e('Is for variations', 'jigoshop'); ?>
+									<input type="checkbox" <?php checked(boolval( isset($attribute['variation']) ? $attribute['variation'] : 0 ), true); ?> name="attribute_variation[<?php echo $i; ?>]" value="1" /><?php _e('Is for variations', 'jigoshop'); ?>
 								</label>
 								<?php endif; ?>
 							</div>
 						</td>
 						<td class="value">
-							<!-- Jigoshop 1.5, 'select' attribute types are no longer retrieved for display -->
 							<?php if ($tax->attribute_type=="select") : ?>
 								<select name="attribute_values[<?php echo $i ?>]">
 									<option value=""><?php _e('Choose an option&hellip;', 'jigoshop'); ?></option>
@@ -618,9 +589,9 @@ function display_attribute() {
 									endif;
 									?>
 								</select>
-	
+
 							<?php elseif ($tax->attribute_type=="multiselect") : ?>
-	
+
 								<div class="multiselect">
 									<?php
 									if (taxonomy_exists('pa_'.$attribute_taxonomy_name)) :
@@ -645,7 +616,7 @@ function display_attribute() {
 									<a class="toggle" href="#"><?php _e('Toggle','jigoshop');?></a>&nbsp;|
 									<a class="show-all" href="#"><?php _e('Show All','jigoshop'); ?></a>
 								</div>
-	
+
 							<?php elseif ($tax->attribute_type=="text") : ?>
 								<textarea name="attribute_values[<?php echo esc_attr( $i ); ?>]"><?php
 									if ($allterms) :
@@ -665,7 +636,7 @@ function display_attribute() {
 	<?php endforeach; ?>
 	<?php
 	// Custom Attributes
-	if ( $attributes ) foreach ($attributes as $attribute) :
+	if ( ! empty( $attributes )) foreach ($attributes as $attribute) :
 		if ($attribute['is_taxonomy']) continue;
 
 		$i++;
@@ -677,28 +648,28 @@ function display_attribute() {
 			<button type="button" class="hide_row button"><?php _e('Remove', 'jigoshop'); ?></button>
 			<div class="handlediv" title="<?php _e('Click to toggle', 'jigoshop') ?>"><br></div>
 			<h3 class="handle"><?php echo esc_attr( $attribute['name'] ); ?></h3>
-	
+
 			<input type="hidden" name="attribute_is_taxonomy[<?php echo $i; ?>]" value="0" />
 			<input type="hidden" name="attribute_enabled[<?php echo $i; ?>]" value="1" />
 			<input type="hidden" name="attribute_position[<?php echo $i; ?>]" class="attribute_position" value="<?php echo esc_attr( $position ); ?>" />
-	
+
 			<div class="inside">
 				<table>
 					<tr>
 						<td class="options">
 							<input type="text" class="attribute-name" name="attribute_names[<?php echo $i; ?>]" value="<?php echo esc_attr( $attribute['name'] ); ?>" />
-	
+
 							<div>
 								<label>
-									<input type="checkbox" <?php checked(boolval( isset($attribute) ? $attribute['visible'] : 0 ), true); ?> name="attribute_visibility[<?php echo $i; ?>]" value="1" /><?php _e('Display on product page', 'jigoshop'); ?>
+									<input type="checkbox" <?php checked(boolval( isset($attribute['visible']) ? $attribute['visible'] : 0 ), true); ?> name="attribute_visibility[<?php echo $i; ?>]" value="1" /><?php _e('Display on product page', 'jigoshop'); ?>
 								</label>
-	
+
 								<label class="attribute_is_variable">
-									<input type="checkbox" <?php checked(boolval( isset($attribute) ? $attribute['variation'] : 0 ), true); ?> name="attribute_variation[<?php echo $i; ?>]" value="1" /><?php _e('Is for variations', 'jigoshop'); ?>
+									<input type="checkbox" <?php checked(boolval( isset($attribute['variation']) ? $attribute['variation'] : 0 ), true); ?> name="attribute_variation[<?php echo $i; ?>]" value="1" /><?php _e('Is for variations', 'jigoshop'); ?>
 								</label>
 							</div>
 						</td>
-	
+
 						<td class="value">
 							<textarea name="attribute_values[<?php echo esc_attr( $i ); ?>]" cols="5" rows="2"><?php echo esc_textarea( apply_filters('jigoshop_product_attribute_value_custom_edit',$attribute['value'], $attribute) ); ?></textarea>
 						</td>

@@ -12,9 +12,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 class jigoshop_product_meta
 {
@@ -22,94 +22,114 @@ class jigoshop_product_meta
 		add_action( 'jigoshop_process_product_meta', array(&$this, 'save'), 1, 2 );
 	}
 
-	public function save( $post_id, $post ) {
-
+	public function save($post_id)
+	{
 		// Set the product type
-		wp_set_object_terms( $post_id, sanitize_title($_POST['product-type']), 'product_type');
+		wp_set_object_terms($post_id, sanitize_title($_POST['product-type']), 'product_type');
 
 		// Process general product data
-		update_post_meta( $post_id, 'regular_price', (isset($_POST['regular_price']) && $_POST['regular_price'] != null) ? jigoshop_sanitize_num($_POST['regular_price']) : '');
+		$regular_price = 0.0;
+		if(isset($_POST['regular_price'])){
+			if($_POST['regular_price'] != ''){
+				$regular_price = jigoshop_sanitize_num($_POST['regular_price']);
+			} else {
+				$regular_price = '';
+			}
+		}
+		update_post_meta($post_id, 'regular_price', $regular_price);
 
-		$sale_price = ! empty( $_POST['sale_price'] )
-			? ( ! strstr( $_POST['sale_price'], '%' ) ? jigoshop_sanitize_num( $_POST['sale_price'] ) : $_POST['sale_price'] )
+		$sale_price = !empty($_POST['sale_price'])
+			? (!strstr($_POST['sale_price'], '%') ? jigoshop_sanitize_num($_POST['sale_price']) : $_POST['sale_price'])
 			: '';
-		if ( strstr( $_POST['sale_price'], '%' ) ) {
-			update_post_meta( $post_id, 'sale_price', $sale_price );
-		} else if ( ! empty( $sale_price ) && $sale_price < jigoshop_sanitize_num( $_POST['regular_price'] ) ) {
-			update_post_meta( $post_id, 'sale_price', $sale_price );
+
+		if (strstr($_POST['sale_price'], '%')) {
+			update_post_meta($post_id, 'sale_price', $sale_price);
+		} else if (!empty($sale_price) && $sale_price < $regular_price) {
+			update_post_meta($post_id, 'sale_price', $sale_price);
 		} else {
 			// silently fail if entered sale price > regular price (or nothing entered)
-			update_post_meta( $post_id, 'sale_price', '' );
+			update_post_meta($post_id, 'sale_price', '');
 		}
 		// finally, if this product is a 'variable' or 'grouped', then there should never be a sale_price here
 		// perhaps it was a 'simple' product once and was changed (see rhr #437)
-		$terms = wp_get_object_terms( $post_id, 'product_type' );
-		if ( ! empty( $terms ))
-			if ( ! is_wp_error( $terms ))
-				if ( sizeof( $terms ) == 1 )
-					if ( in_array( $terms[0]->slug, array( 'variable', 'grouped' ) ) )
-						delete_post_meta( $post_id, 'sale_price' );
+		$terms = wp_get_object_terms($post_id, 'product_type');
+		if (!empty($terms)) {
+			if (!is_wp_error($terms)) {
+				if (sizeof($terms) == 1) {
+					if (in_array($terms[0]->slug, array('variable', 'grouped'))) {
+						delete_post_meta($post_id, 'sale_price');
+					}
+				}
+			}
+		}
 
-		if ( isset( $_POST['weight'] ) )
-			update_post_meta( $post_id, 'weight',        (float) $_POST['weight']);
-		if ( isset( $_POST['length'] ) )
-			update_post_meta( $post_id, 'length',        (float) $_POST['length']);
-		if ( isset( $_POST['width'] ) )
-			update_post_meta( $post_id, 'width',         (float) $_POST['width']);
-		if ( isset( $_POST['height'] ) )
-			update_post_meta( $post_id, 'height',        (float) $_POST['height']);
+		if (isset($_POST['weight'])) {
+			update_post_meta($post_id, 'weight', (float)$_POST['weight']);
+		}
+		if (isset($_POST['length'])) {
+			update_post_meta($post_id, 'length', (float)$_POST['length']);
+		}
+		if (isset($_POST['width'])) {
+			update_post_meta($post_id, 'width', (float)$_POST['width']);
+		}
+		if (isset($_POST['height'])) {
+			update_post_meta($post_id, 'height', (float)$_POST['height']);
+		}
 
-		update_post_meta( $post_id, 'tax_status',    $_POST['tax_status']);
-		update_post_meta( $post_id, 'tax_classes',   isset($_POST['tax_classes']) ? $_POST['tax_classes'] : array() );
+		update_post_meta($post_id, 'tax_status', $_POST['tax_status']);
+		update_post_meta($post_id, 'tax_classes', isset($_POST['tax_classes']) ? $_POST['tax_classes'] : array());
 
-		update_post_meta( $post_id, 'visibility',    $_POST['product_visibility']);
-		update_post_meta( $post_id, 'featured',      isset($_POST['featured']) );
-		update_post_meta( $post_id, 'customizable',  $_POST['product_customize'] );
-		update_post_meta( $post_id, 'customized_length',  $_POST['customized_length'] );
+		update_post_meta($post_id, 'visibility', $_POST['product_visibility']);
+		update_post_meta($post_id, 'featured', isset($_POST['featured']));
+		update_post_meta($post_id, 'customizable', $_POST['product_customize']);
+		update_post_meta($post_id, 'customized_length', $_POST['customized_length']);
 
 		// Downloadable Only
-		if( $_POST['product-type'] == 'downloadable' ) {
-			update_post_meta( $post_id, 'file_path',      $_POST['file_path']);
-			update_post_meta( $post_id, 'download_limit', $_POST['download_limit']);
+		if ($_POST['product-type'] == 'downloadable') {
+			update_post_meta($post_id, 'file_path', $_POST['file_path']);
+			update_post_meta($post_id, 'download_limit', $_POST['download_limit']);
 		}
 
 		// Process the SKU
-		if ( Jigoshop_Base::get_options()->get_option('jigoshop_enable_sku') !== 'no' ) {
-			( $this->is_unique_sku( $post_id, $_POST['sku'] ) )
-				? update_post_meta( $post_id, 'sku', $_POST['sku'])
-				: delete_post_meta( $post_id, 'sku' );
+		if (Jigoshop_Base::get_options()->get('jigoshop_enable_sku') !== 'no') {
+			($this->is_unique_sku($post_id, $_POST['sku']))
+				? update_post_meta($post_id, 'sku', $_POST['sku'])
+				: delete_post_meta($post_id, 'sku');
 		}
 
 		// Process the attributes
-		update_post_meta( $post_id, 'product_attributes', $this->process_attributes($_POST, $post_id));
+		update_post_meta($post_id, 'product_attributes', $this->process_attributes($_POST, $post_id));
 
 		// Process the stock information
-		$stockresult = $this->process_stock( $_POST );
-		if ( is_array( $stockresult ) ) foreach( $stockresult as $key => $value ) {
-			update_post_meta( $post_id, $key, $value );
+		$stockresult = $this->process_stock($_POST);
+		if (is_array($stockresult)) {
+			foreach ($stockresult as $key => $value) {
+				update_post_meta($post_id, $key, $value);
+			}
 		}
 
-		if( $_POST['product-type'] == 'external' ) {
-			update_post_meta( $post_id, 'external_url', $_POST['external_url']);
-			update_post_meta( $post_id, 'stock_status', 'instock' );
+		if ($_POST['product-type'] == 'external') {
+			update_post_meta($post_id, 'external_url', $_POST['external_url']);
+			update_post_meta($post_id, 'stock_status', 'instock');
+			update_post_meta($post_id, 'manage_stock', false);
 		}
 
 		// Process the sale dates
-		foreach( $this->process_sale_dates( $_POST ) as $key => $value ) {
-			update_post_meta( $post_id, $key, $value );
+		foreach ($this->process_sale_dates($_POST, $post_id) as $key => $value) {
+			update_post_meta($post_id, $key, $value);
 		}
 
 		// Do action for product type
-		do_action( 'jigoshop_process_product_meta_' . $_POST['product-type'], $post_id );
+		do_action('jigoshop_process_product_meta_'.$_POST['product-type'], $post_id);
 	}
 
 	/**
 	 * Processes the sale dates
 	 *
-	 * @param   array   The postback
+	 * @param   array $post The postback
 	 * @return  array
 	 **/
-	private function process_sale_dates( array $post ) {
+	private function process_sale_dates( array $post, $post_id ) {
 
 		// Set the default values
 		$array = array(
@@ -129,10 +149,42 @@ class jigoshop_product_meta
 
 				$array['sale_price_dates_from'] = $sale_start;
 				$array['sale_price_dates_to']   = $sale_end;
+				$this->grouped_sale_dates($array, $post_id);
 			}
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Check if product is in group and update sale dates meta of group
+	 *
+	 * @param array $dates Sale Dates
+	 * @param $post_id Post ID
+	 */
+	private function grouped_sale_dates (array $dates, $post_id)
+	{
+		$post = get_post($post_id);
+
+		//Process only if product has parent
+		if ($post->post_parent != '0') {
+			$parent = get_post($post->post_parent);
+
+			//Check if parent is grouped
+			if ($parent->post_name == 'grouped') {
+				$meta = get_post_meta($parent->ID);
+
+				//Update if current 'sale date from' is earlier than stored or is null
+				if ($dates['sale_price_dates_from'] < $meta['sale_price_dates_from'][0] || $meta['sale_price_dates_from'][0] == null) {
+					update_post_meta($parent->ID, 'sale_price_dates_from', $dates['sale_price_dates_from']);
+				}
+
+				//Update if current 'sale date to' is later than stored or is null
+				if ($dates['sale_price_dates_to'] > $meta['sale_price_dates_to'][0] || $meta['sale_price_dates_to'][0] == null) {
+					update_post_meta($parent->ID, 'sale_price_dates_to', $dates['sale_price_dates_to']);
+				}
+			}
+		}
 	}
 
 	/**
@@ -146,7 +198,7 @@ class jigoshop_product_meta
         $jigoshop_options = Jigoshop_Base::get_options();
 
 		// If the global stock switch is off
-		if ( !$jigoshop_options->get_option('jigoshop_manage_stock') )
+		if ( !$jigoshop_options->get('jigoshop_manage_stock') )
 			return false;
 
 		// Don't hold stock info for external & grouped products
@@ -164,8 +216,8 @@ class jigoshop_product_meta
 			$array['stock']        = absint( $post['stock'] );
 			$array['backorders']   = $post['backorders']; // should have a space
 			$array['stock_status'] = -1; // Discount if stock is managed
-			if ( $jigoshop_options->get_option( 'jigoshop_hide_no_stock_product' ) == 'yes' ) {
-				if ( $array['stock'] <= $jigoshop_options->get_option( 'jigoshop_notify_no_stock_amount' ) ) {
+			if ( $jigoshop_options->get( 'jigoshop_hide_no_stock_product' ) == 'yes' ) {
+				if ( $array['stock'] <= $jigoshop_options->get( 'jigoshop_notify_no_stock_amount' ) ) {
 					if ( $post['product-type'] <> 'grouped' && $post['product-type'] <> 'variable' ) {
 						update_post_meta( $post['ID'], 'visibility', 'hidden' );
 					} else {
@@ -221,12 +273,12 @@ class jigoshop_product_meta
 		if ( ! isset($_POST['attribute_values']) )
 			return false;
 
-		$attr_names      = $post['attribute_names']; // This data returns all attributes?
+		$attr_names      = $post['attribute_names'];
 		$attr_values     = $post['attribute_values'];
-		$attr_visibility = $post['attribute_visibility'];
-		$attr_variation  = isset($post['attribute_variation']) ? $post['attribute_variation'] : null; // Null so unsure
-		$attr_is_tax     = $post['attribute_is_taxonomy']; // Likewise
-		$attr_position   = $post['attribute_position']; // and this?
+		$attr_visibility = isset($post['attribute_visibility']) ? $post['attribute_visibility'] : null;
+		$attr_variation  = isset($post['attribute_variation']) ? $post['attribute_variation'] : null;
+		$attr_is_tax     = $post['attribute_is_taxonomy'];
+		$attr_position   = $post['attribute_position'];
 
 		// Create empty attributes array
 		$attributes = array();
@@ -234,31 +286,31 @@ class jigoshop_product_meta
 		foreach( $attr_values as $key => $value ) {
 
 			// Skip if no value
-			if ( ! $value )
-				continue;
+			if ( empty( $value )) continue;
 
-			if ( ! is_array( $value ) && $attr_variation[$key] ) {
+			$has_tax = false;
+
+			if ( ! is_array( $value ) && isset( $attr_variation[$key] ) && $attr_variation[$key] ) {
 			 	$value = explode( ',', $value );
 			 	$value = array_map( 'trim', $value );
-			 	$value = implode( ',', $value );
+			 	$value = implode( ', ', $value );
 			} else if ( ! is_array( $value ) ) {
 				$value = trim( $value );
 			}
 
 			// If attribute is standard then create the relationship
-			if ( (bool) $attr_is_tax[$key] && taxonomy_exists('pa_'.sanitize_title($attr_names[$key])) ) {
-				// TODO: Adding pa and sanitizing fixes the bug but why not automatic?
+			if ( $attr_is_tax[$key] && taxonomy_exists('pa_'.sanitize_title($attr_names[$key])) ) {
 				wp_set_object_terms( $post_id, $value, 'pa_'.sanitize_title($attr_names[$key]) );
-				$value = null; // Set as null
+				$has_tax = true;
 			}
 
 			$attributes[ sanitize_title($attr_names[$key]) ] = array(
 				'name'        => $attr_names[$key],
 				'value'       => $value,
-				'position'    => (int)  $attr_position[$key],
-				'visible'     => (bool) $attr_visibility[$key],
-				'variation'   => (bool) $attr_variation[$key],
-				'is_taxonomy' => (bool) $attr_is_tax[$key]
+				'position'    => $attr_position[$key],
+				'visible'     => isset( $attr_visibility[$key] ),
+				'variation'   => isset( $attr_variation[$key] ) ? $attr_variation[$key] : null,
+				'is_taxonomy' => $has_tax
 			);
 		}
 

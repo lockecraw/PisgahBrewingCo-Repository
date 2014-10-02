@@ -1,5 +1,7 @@
 (function($) {
+	
 	$(document).ready(function() {
+		
 		// On active ou desactive le champs 'domain' selon notre choix sous-domaine ou pas
 		$('#multisetting').bind('change', function() {
 			if ($(this).val() == 1) {
@@ -18,5 +20,7 @@
 				return true ;
 			}
 		}) ;
+		
 	}) ;
+	
 })(jQuery) ;

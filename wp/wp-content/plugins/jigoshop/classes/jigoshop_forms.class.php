@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 class Jigoshop_Forms extends Jigoshop_Base {
@@ -39,7 +39,7 @@ class Jigoshop_Forms extends Jigoshop_Base {
 
 		$value = isset( $value ) ? esc_attr( $value ) : get_post_meta( $post->ID, $id, true) ;
 		$name = isset( $name ) ? $name : $id;
-		    
+
 		$html  = '';
 
 		$html .= "<p class='form-field {$id}_field'>";
@@ -127,9 +127,11 @@ class Jigoshop_Forms extends Jigoshop_Base {
 
 		$html .= "</p>";
 		$html .=    '<script type="text/javascript">
+					/*<![CDATA[*/
 						jQuery(function() {
 							jQuery("#'.$id.'").select2();
 						});
+					/*]]>*/
 					</script>';
 
 		return $html;

@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Catalog
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
  ?>
 
@@ -45,5 +45,6 @@
 <?php do_action('jigoshop_after_main_content'); // </div></div> ?>
 
 <?php do_action('jigoshop_sidebar'); ?>
+<?php do_action('jigoshop_after_sidebar'); ?>
 
 <?php get_footer('shop'); ?>

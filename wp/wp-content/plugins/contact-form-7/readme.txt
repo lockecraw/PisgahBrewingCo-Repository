@@ -2,9 +2,9 @@
 Contributors: takayukister
 Donate link: http://contactform7.com/donate/
 Tags: contact, form, contact form, feedback, email, ajax, captcha, akismet, multilingual
-Requires at least: 3.3
-Tested up to: 3.5
-Stable tag: 3.3.3
+Requires at least: 3.8
+Tested up to: 4.0
+Stable tag: 3.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,61 +41,62 @@ The following are other recommended plugins by the author of Contact Form 7.
 * Basque (Euskara; eu) - [karrikas](http://blog.karrikas.com/)
 * Belarusian (be_BY) - [Igor Dubilei](http://www.iflexion.com/)
 * Bosnian (bs) - [Vedran](http://www.seorabbit.com/)
-* Brazilian Portuguese (pt_BR) - [Leonardo Pinheiro](http://www.eletrikabarbarella.com.br/), [Henrique Vianna](http://henriquevianna.com/), [Caciano Gabriel Batista](http://www.gn10.com.br/), [Gervásio Antônio](http://twitter.com/gervasioantonio)
+* Brazilian Portuguese (pt_BR) - [Leonardo Pinheiro](http://www.eletrikabarbarella.com.br/), [Henrique Vianna](http://henriquevianna.com/), [Caciano Gabriel Batista](http://www.gn10.com.br/), [Gervásio Antônio](http://twitter.com/gervasioantonio), Gilvanilson Santos
 * Bulgarian (bg_BG) - [Iliyan Darganov](http://www.darganov.com/)
-* Catalan (ca) - [Jordi Sancho](http://www.qasolutions.net/blog), Robert Buj
-* Chinese, Simplified (zh_CN) - [Soz](http://www.webtoolol.com/), [Keefe Dunn](http://dengkefu.com/)
+* Catalan (ca) - [Jordi Sancho](http://www.qasolutions.net/blog), Robert Buj, Jaume Aragay Badia
+* Central Kurdish (ckb) - Mahr Hassan
+* Chinese, Simplified (zh_CN) - [Soz](http://www.webtoolol.com/), [Keefe Dunn](http://dengkefu.com/), [Stella Hu](http://prowordpresser.com/)
 * Chinese, Traditional (zh_TW) - [James Wu](http://jameswublog.com)
 * Croatian (hr) - [tolingo Translation Services](http://www.tolingo.com)
-* Czech (cs_CZ) - Korry, [Radovan Fiser](http://algymsa.cz/), [Tomas Vesely](http://www.mcmotylek.cz/), [Pavel Bilek](http://chcistranky.eu/zdarma/)
+* Czech (cs_CZ) - Korry, [Radovan Fiser](http://algymsa.cz/), [Tomas Vesely](http://www.mcmotylek.cz/), [Pavel Bilek](http://chcistranky.eu/zdarma/), Vladislav Šenk
 * Danish (da_DK) - [Jens Griebel](http://www.kompas-it.dk/), [Georg S. Adamsen](http://wordpress.blogos.dk/)
-* Dutch (nl_NL) - [Chris Devriese](http://www.100it.be/), [Martin Hein](http://www.split-a-pixel.nl/), [Rene](http://wpwebshop.com/)
+* Dutch (nl_NL) - [Chris Devriese](http://www.100it.be/), [Martin Hein](http://www.split-a-pixel.nl/), [Rene](http://wpwebshop.com/), [TenSheep](http://tensheep.nl/), [Tim de Hoog](http://www.ecommany.com/)
 * Esperanto (eo_EO) - Arkadiusz Zychewicz
 * Estonian (et) - [Peeter Rahuvarm](http://www.kraabus.ee), Egon Elbre
 * Finnish (fi) - [Miika Turunen](http://www.webwork.fi/), [Mediajalostamo](http://www.mediajalostamo.fi/), [Jani Alha](http://www.wysiwyg.fi/)
-* French (fr_FR) - [Jillij](http://www.jillij.com/), [Oncle Tom](http://case.oncle-tom.net/), [Maître Mô](http://maitremo.fr/), Sellami Hédi
+* French (fr_FR) - [Jillij](http://www.jillij.com/), [Oncle Tom](http://case.oncle-tom.net/), [Maître Mô](http://maitremo.fr/), Emmanuel Simond, Hédi Sellami
 * Galician (gl_ES) - [Arume Desenvolvementos Informáticos](http://www.arumeinformatica.es/)
 * Georgian (ka_GE) - [Nodar Rocko Davituri](http://davituri.com/)
 * German (de_DE) - [Marcel Spitau](http://blog.spitau.de), [Ivan Graf](http://blog.bildergallery.com/)
-* Greek (el) - [Nick Mouratidis](http://www.kepik.gr/), [Pr. friedlich](http://friedlich.wordpress.com/)
+* Greek (el) - [Nick Mouratidis](http://www.kepik.gr/), [Pr. friedlich](http://friedlich.wordpress.com/), John D. Dimoferlias
+* Gujarati (gu_IN) - [Apoto](http://www.apoto.com/)
+* Haitian (ht) - [Lam Tu Do](http://bizover.net/)
 * Hebrew (he_IL) - [Yaron Ofer](http://www.gadgetguru.co.il/), [Arik Galansky](http://www.arikg.co.il/)
 * Hindi (hi_IN) - [Tarun Joshi](http://www.readers-cafe.net/), [Ashish](http://outshinesolutions.com/)
 * Hungarian (hu_HU) - [Andras Hirschler](http://hia.itblog.hu/), [János Csárdi-Braunstein](http://blogocska.org/), [Farkas Győző](http://www.sakraft.hu/)
+* Indian Bengali (bn_IN) - [Suman Manna](http://www.gwebpro.com/)
 * Indonesian (Bahasa Indonesia; id_ID) - [Hendry Lee](http://blogbuildingu.com/), [Belajar Seo Indonesia](http://dhany.web.id/panduan-seo)
 * Irish (ga_IE) - [Vikas Arora](http://www.wiznicworld.com/)
 * Italian (it_IT) - [Bruno](http://www.brunosalzano.com), [Gianni Diurno](http://gidibao.net/)
 * Japanese (ja) - [Takayuki Miyoshi](http://ideasilo.wordpress.com)
-* Korean (ko_KR) - Seong Eun Lee, [Jong-In Kim](http://incommunity.codex.kr/wordpress/)
+* Korean (ko_KR) - Seong Eun Lee, [Jong-In Kim](http://incommunity.codex.kr/wordpress/), [martian36](http://martian36.tistory.com/)
 * Latvian (lv) - [Sandis Veinbergs](http://www.kleofass.lv/)
-* Lithuanian (lt_LT) - [Ernestas Kardzys](http://www.ernestas.info/), [Vincent G](http://www.host1free.com/)
+* Lithuanian (lt_LT) - [Ernestas Kardzys](http://www.ernestas.info/), [Vincent G](http://www.host1free.com/), [Mantas Malcius](http://mantas.malcius.lt/)
 * Macedonian (mk_MK) - [Darko](http://www.findermind.com/)
 * Malay (ms_MY) - [Zairul Azmil](http://www.zairul.com/)
 * Malayalam (ml_IN) - [RAHUL.S.A](http://www.infution.co.cc/)
 * Maltese (mt_MT) - [Ajoft Technologies](http://www.ajoft.com/)
 * Norwegian (nb_NO) - Kjetil M. Bergem, [aanvik.net](http://www.aanvik.net), [Peter Holme](http://holme.se/nettsteder/)
-* Persian (Farsi; fa_IR) - [Mohammad Musavi](http://www.musavis.com/), [Mohsen Firoozmandan](http://www.rankbazar.com/)
+* Persian (Farsi; fa_IR) - [Mohammad Musavi](http://www.musavis.com/), [Mohsen Firoozmandan](http://www.rankbazar.com/), Ghaem Omidi
 * Polish (pl_PL) - [Zbigniew Czernik](http://zibik.jogger.pl/), [Daniel Fruzynski](http://www.poradnik-webmastera.com), [RafalDesign](http://www.rafaldesign.pl/), [Bartosz Arendt](http://digitalfactory.pl/)
 * Portuguese (pt_PT) - [Hugo Baeta](http://hugobaeta.com), [Pedro Nave](http://pedronave.com/)
+* Punjabi (pa_IN) - Jasvinder Sing
 * Russian (ru_RU) - Dmitry Volotovich, [Denis Voituk](http://artprima.cz/), [kg69design](http://kg69design.com/)
-* Romanian (ro_RO) - [Stas Sushkov](http://stas.nerd.ro/), [Anunturi Jibo](http://www.jibo.ro/), [Marius Olar](http://webdudes.ro/)
+* Romanian (ro_RO) - [Stas Sushkov](http://stas.nerd.ro/), [Anunturi Jibo](http://www.jibo.ro/), [Marius Olar](http://webdudes.ro/), [Inbox Translation](http://inboxtranslation.com/)
 * Serbian (sr_RS) - [Vedran](http://www.seorabbit.com/), [Aleksandar Urošević](http://blog.urosevic.net/)
 * Sinhala (si_LK) - [Nitin Aggarwal](http://offshoreally.com/)
-* Slovak (sk_SK) - [Patrik Bóna](http://www.mrhead.sk/)
+* Slovak (sk_SK) - [Patrik Bóna](http://www.mrhead.sk/), [WordPress Slovakia](http://wp.sk/)
 * Slovene (sl_SI) - [Mihael Simonič](http://smihael.bplaced.net), Jani Roskar
-* Spanish (es_ES) - [Jordi Sancho](http://www.qasolutions.net/blog), [Vladimir Prieto](http://vladimir.prie.to/), [Federico Mikaelian](http://www.fedemika.com.ar/), [Matias Baldanza](http://matiasbaldanza.com/), [Carlos Agnese](http://albumdecarlitos.com.ar/)
+* Spanish (es_ES) - [Jordi Sancho](http://www.qasolutions.net/blog), [Vladimir Prieto](http://vladimir.prie.to/), [Federico Mikaelian](http://www.fedemika.com.ar/), [Matias Baldanza](http://matiasbaldanza.com/), [Carlos Agnese](http://albumdecarlitos.com.ar/), [Lourdes Cuesta](http://www.morote.net)
 * Swedish (sv_SE) - [Fredrik Jonsson](http://www.fredda-o-ac.se/), [the Swedish community](http://wp-support.se/)
-* Tagalog (tl) - [Rupert Agnew Lanuza](http://wheretobuy.com.ph/), [Hanne](http://pointen.dk/)
+* Tagalog (tl) - [Rupert Agnew Lanuza](http://www.rupertlanuza.com/), [Hanne](http://pointen.dk/), [Language Connect](http://www.languageconnect.net/)
 * Tamil (ta) - [Nitin Aggarwal](http://offshoreally.com/)
-* Thai (th) - [ToshiK](http://www.tuntikorn.com/), [kazama](http://blog.wordthai.com/)
+* Thai (th) - [ToshiK](http://www.tuntikorn.com/), [kazama](http://blog.wordthai.com/), [TG Knowledge](http://www.เกร็ดความรู้.com/)
 * Turkish (tr_TR) - [Roman Neumuller](http://katpatuka.wordpress.com), [Hasan Yılmaz](http://hedefturkce.com/), [Emin Buğra Saral](http://www.rahmetli.info/), Burak Yavuz
-* Ukrainian (uk) - [Andrey Kovba](http://myserver.com.ua/), [Ukrainian WordPress localization team](http://wordpress.co.ua/plugins/contact-form-7.html)
+* Ukrainian (uk) - [Andrey Kovba](http://myserver.com.ua/), [Ukrainian WordPress localization team](http://wordpress.co.ua/plugins/contact-form-7.html), Myroslava Pabyrivska
 * Vietnamese (vi) - Thanh Hải, Hà, [Khang Minh](http://betterwp.net/)
 
-If you have created your own language pack, or have an update of an existing one, you can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [me](http://ideasilo.wordpress.com/about/) so that I can bundle it into Contact Form 7. You can download the latest [POT file](http://plugins.svn.wordpress.org/contact-form-7/trunk/languages/wpcf7.pot), and [PO files in each language](http://plugins.svn.wordpress.org/contact-form-7/branches/languages/).
-
-= Icon Design =
-
-* [Takao Honda](http://www.takaohonda.jp/)
+If you have created your own language pack, or have an update of an existing one, you can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [me](http://ideasilo.wordpress.com/about/) so that I can bundle it into Contact Form 7. You can download the latest [POT file](http://plugins.svn.wordpress.org/contact-form-7/trunk/languages/contact-form-7.pot), and [PO files in each language](http://plugins.svn.wordpress.org/contact-form-7/branches/languages/).
 
 == Installation ==
 
@@ -122,44 +123,35 @@ Do you have questions or issues with Contact Form 7? Use these support channels 
 
 == Changelog ==
 
-= 3.3.3 =
+For more information, see [Releases](http://contactform7.com/category/releases/).
 
-* Fixed: Logic of resolving upload directory on WordPress 3.5 multi-site install.
-* The jQuery Form Plugin (jquery.form.js) has been updated to 3.25.0.
-* Translations for French, German, Russian and Turkish have been updated.
+= 3.9.3 =
 
-= 3.3.2 =
+* Fixed: file uploading was disabled in some of server environments because of wrong use of mt_rand() function.
+* Translations for Hungarian has been updated.
 
-* Fixed: Add the additional headers only when they are not empty.
-* Fixed: Don't load hidden files in the modules folder.
-* The jQuery Form Plugin (jquery.form.js) has been updated to 3.23.
-* Irish translation has been created by Vikas Arora.
-* Translations for German, Thai, Hungarian and Tagalog have been updated.
+= 3.9.2 =
 
-= 3.3.1 =
+* Fixed: incorrect behavior seen in demo mode.
+* Fixed: Flamingo saved submitter's contact info even when the submission was spam.
+* New: introduce wpcf7_skip_mail filter.
+* Enhancement: add a random-named directory to each uploaded file's temporary file path in order to make the path harder for a submitter to guess.
+* Translation for Punjabi has been created.
+* Translations for Turkish, Korean and Slovak have been updated.
 
-* Fixed: Apply esc_html() to response outputs. In the case it is necessary to use HTML tags in the response messages, new wpcf7_form_response_output filter is available.
-* Fixed: Don't use $_POST for internal data passing. Use global $wpcf7 variable instead.
-* Fixed: Treat array value correctly in the Akismet module.
-* Fixed: Escape outputs of [_user_agent] spacial mail tags used in the HTML mode.
-* Fixed: Don't show the notice about conflicting with Jetpack to new users who rarely see such conflicts.
-* The jQuery Form Plugin (jquery.form.js) has been updated to 3.18.
-* Translations for Danish and Finnish have been updated.
+= 3.9.1 =
 
-= 3.3 =
+* Fix: options with empty values didn't work correctly in a drop-down menu.
+* Fix: broke layout of input fields after validation by an incorrect jQuery use.
+* Fix: couldn't enqueue JavaScript manually with wpcf7_enqueue_scripts() when WPCF7_LOAD_JS was false.
+* Fix: couldn't enqueue CSS manually with wpcf7_enqueue_styles() when WPCF7_LOAD_CSS was false.
+* Translations for Greek and Hungarian have been updated.
 
-* New: Introduce a new special mail tag [_user_agent] for user agent information.
-* New: Make WordPress Comment Blacklist applicable for inputs through contact forms.
-* New: Introduce new form of mail tag [\_raw\_{field name}]. This allows to output raw user input those have not been modified with pipes.
-* New: Make mail tags available in response messages.
-* New: Introduce new additional setting on_submit. It works like on_sent_ok and has one-line JavaScript code, but on_submit code is fired regardless of whether or not the mail has been sent successfully.
-* New: Introduce 5 new jQuery custom event triggers (invalid.wpcf7, spam.wpcf7, mailsent.wpcf7, mailfailed.wpcf7, submit.wpcf7).
-* Fix: Nonce used in a form have been changed to have no time limit.
-* Fix: Make every post meta’s key have underscore prefix.
-* The jQuery Form Plugin (jquery.form.js) has been updated to 3.15 and compressed with YUI compressor.
-* The required WordPress version has been changed and now requires WordPress 3.3 or higher. If you use WordPress 3.2, you will need to upgrade WordPress.
-* Translations for Arabic and German have been updated.
+= 3.9 =
 
-== Upgrade Notice ==
-
-The current version of Contact Form 7 requires WordPress 3.3 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
+* A major change has been made to the internal structure. For details, see [beta release announcement](http://contactform7.com/2014/07/02/contact-form-7-39-beta/).
+* The exclude_blank mail option has been introduced.
+* The wpcf7_load_js and wpcf7_load_css (functions and filter hooks) have been introduced.
+* The jQuery Form Plugin (jquery.form.js) has been updated to 3.51.0.
+* Translations for Persian and Slovak have been updated.
+* WordPress 3.8 or higher is required.

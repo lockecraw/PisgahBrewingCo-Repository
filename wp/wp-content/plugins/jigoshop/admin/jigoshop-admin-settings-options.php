@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 
@@ -131,8 +131,8 @@ $jigoshop_options_settings = apply_filters('jigoshop_options_settings', array(
 	),
 
 	array(
-		'desc'           => __('Disable bundled Fancybox','jigoshop'),
-		'tip'            => __('Useful if or one of your plugin already loads the Fancybox script and css. But be careful, Jigoshop will still try to open product images using Fancybox.','jigoshop'),
+		'desc'           => __('Disable bundled PrettyPhoto','jigoshop'),
+		'tip'            => __('Useful if or one of your plugin already loads the PrettyPhoto script and css. But be careful, Jigoshop will still try to open product images using Fancybox.','jigoshop'),
 		'id'             => 'jigoshop_disable_fancybox',
 		'std'            => 'no',
 		'type'           => 'checkbox'

@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Checkout
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -22,22 +22,22 @@ function add_cheque_gateway( $methods ) {
 	$methods[] = 'jigoshop_cheque';
 	return $methods;
 }
-add_filter( 'jigoshop_payment_gateways', 'add_cheque_gateway', 5 );
+add_filter( 'jigoshop_payment_gateways', 'add_cheque_gateway', 15 );
 
 
 class jigoshop_cheque extends jigoshop_payment_gateway {
 
 	public function __construct() {
-	
+
 		parent::__construct();
-		
+
         $this->id				= 'cheque';
         $this->icon 			= '';
         $this->has_fields 		= false;
 
-		$this->enabled			= Jigoshop_Base::get_options()->get_option('jigoshop_cheque_enabled');
-		$this->title 			= Jigoshop_Base::get_options()->get_option('jigoshop_cheque_title');
-		$this->description 		= Jigoshop_Base::get_options()->get_option('jigoshop_cheque_description');
+		$this->enabled			= Jigoshop_Base::get_options()->get('jigoshop_cheque_enabled');
+		$this->title 			= Jigoshop_Base::get_options()->get('jigoshop_cheque_title');
+		$this->description 		= Jigoshop_Base::get_options()->get('jigoshop_cheque_description');
 
     	add_action('thankyou_cheque', array(&$this, 'thankyou_page'));
     }
@@ -48,14 +48,14 @@ class jigoshop_cheque extends jigoshop_payment_gateway {
 	 *
 	 * These will be installed on the Jigoshop_Options 'Payment Gateways' tab by the parent class 'jigoshop_payment_gateway'
 	 *
-	 */	
+	 */
 	protected function get_default_options() {
-	
+
 		$defaults = array();
-		
+
 		// Define the Section name for the Jigoshop_Options
 		$defaults[] = array( 'name' => __('Cheque Payment', 'jigoshop'), 'type' => 'title', 'desc' => __('Allows cheque payments. Allows you to make test purchases without having to use the sandbox area of a payment gateway. Quite useful for demonstrating to clients and for testing order emails and the \'success\' pages etc.', 'jigoshop') );
-		
+
 		// List each option in order of appearance with details
 		$defaults[] = array(
 			'name'		=> __('Enable Cheque Payment','jigoshop'),
@@ -69,7 +69,7 @@ class jigoshop_cheque extends jigoshop_payment_gateway {
 				'yes'			=> __('Yes', 'jigoshop')
 			)
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Method Title','jigoshop'),
 			'desc' 		=> '',
@@ -78,11 +78,11 @@ class jigoshop_cheque extends jigoshop_payment_gateway {
 			'std' 		=> __('Cheque Payment','jigoshop'),
 			'type' 		=> 'text'
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Customer Message','jigoshop'),
 			'desc' 		=> '',
-			'tip' 		=> __('Let the customer know the payee and where they should be sending the cheque too and that their order won\'t be shipping until you receive it.','jigoshop'),
+			'tip' 		=> __('Let the customer know the payee and where they should be sending the cheque to and that their order won\'t be shipping until you receive it.','jigoshop'),
 			'id' 		=> 'jigoshop_cheque_description',
 			'std' 		=> __('Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'jigoshop'),
 			'type' 		=> 'longtext'

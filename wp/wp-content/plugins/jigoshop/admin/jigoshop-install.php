@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -42,16 +42,13 @@ function install_jigoshop( $network_wide = false ) {
 
 }
 
-function _install_jigoshop() {
-    
-    $jigoshop_options = Jigoshop_Base::get_options();
+function _install_jigoshop(){
+	jigoshop_populate_options();
 
-	if( ! get_option('jigoshop_db_version') )  {
+	if(!get_option('jigoshop_db_version')){
 
-		jigoshop_tables_install();		/* we need tables installed first to eliminate installation errors */
+		jigoshop_tables_install(); /* we need tables installed first to eliminate installation errors */
 
-		Jigoshop_Base::get_options();   /* instantiate options */
-		
 		jigoshop_create_pages();
 
 		jigoshop_post_type();
@@ -61,10 +58,104 @@ function _install_jigoshop() {
 		wp_clear_scheduled_hook('jigoshop_cron_pending_orders');
 
 		// Flush Rules
-		flush_rewrite_rules( false );
+		flush_rewrite_rules(false);
 
 		// Update version
-		update_site_option( "jigoshop_db_version", JIGOSHOP_VERSION );
+		update_site_option("jigoshop_db_version", JIGOSHOP_DB_VERSION);
+	}
+}
+
+function jigoshop_populate_options(){
+	$defaults = array(
+		'jigoshop_default_country' => 'GB',
+		'jigoshop_currency' => 'GBP',
+		'jigoshop_allowed_countries' => 'all',
+		'jigoshop_specific_allowed_countries' => '',
+		'jigoshop_demo_store' => 'no',
+		'jigoshop_company_name' => '',
+		'jigoshop_tax_number' => '',
+		'jigoshop_address_1' => '',
+		'jigoshop_address_2' => '',
+		'jigoshop_company_phone' => '',
+		'jigoshop_company_email' => '',
+		'jigoshop_prepend_shop_page_to_urls' => 'no',
+		'jigoshop_prepend_shop_page_to_product' => 'no',
+		'jigoshop_prepend_category_to_product' => 'no',
+		'jigoshop_product_category_slug' => _x('product-category', 'slug', 'jigoshop'),
+		'jigoshop_product_tag_slug' => _x('product-tag', 'slug', 'jigoshop'),
+		'jigoshop_email' => get_option('admin_email'),
+		'jigoshop_cart_shows_shop_button' => 'yes',
+		'jigoshop_redirect_add_to_cart' => 'same_page',
+		'jigoshop_reset_pending_orders' => 'no',
+		'jigoshop_complete_processing_orders' => 'no',
+		'jigoshop_downloads_require_login' => 'no',
+		'jigoshop_disable_css' => 'no',
+		'jigoshop_frontend_with_theme_css' => 'no',
+		'jigoshop_disable_fancybox' => 'no',
+		'jigoshop_enable_postcode_validating' => 'no',
+		'jigoshop_verify_checkout_info_message' => 'yes',
+		'jigoshop_eu_vat_reduction_message' => 'yes',
+		'jigoshop_enable_guest_checkout' => 'yes',
+		'jigoshop_enable_guest_login' => 'yes',
+		'jigoshop_enable_signup_form' => 'yes',
+		'jigoshop_force_ssl_checkout' => 'no',
+		'jigoshop_sharethis' => '',
+		'jigoshop_ga_id' => '',
+		'jigoshop_ga_ecommerce_tracking_enabled' => 'no',
+		'jigoshop_catalog_product_button' => 'add',
+		'jigoshop_catalog_sort_orderby' => 'post_date',
+		'jigoshop_catalog_sort_direction' => 'asc',
+		'jigoshop_catalog_columns' => '3',
+		'jigoshop_catalog_per_page' => '12',
+		'jigoshop_currency_pos' => 'left',
+		'jigoshop_price_thousand_sep' => ',',
+		'jigoshop_price_decimal_sep' => '.',
+		'jigoshop_price_num_decimals' => '2',
+		'jigoshop_use_wordpress_tiny_crop' => 'no',
+		'jigoshop_use_wordpress_thumbnail_crop' => 'no',
+		'jigoshop_use_wordpress_catalog_crop' => 'no',
+		'jigoshop_use_wordpress_featured_crop' => 'no',
+		'jigoshop_shop_tiny_w' => 36,
+		'jigoshop_shop_tiny_h' => 36,
+		'jigoshop_shop_thumbnail_w' => 90,
+		'jigoshop_shop_thumbnail_h' => 90,
+		'jigoshop_shop_small_w' => 150,
+		'jigoshop_shop_small_h' => 150,
+		'jigoshop_shop_large_w' => 300,
+		'jigoshop_shop_large_h' => 300,
+		'jigoshop_enable_sku' => 'yes',
+		'jigoshop_enable_weight' => 'yes',
+		'jigoshop_weight_unit' => 'kg',
+		'jigoshop_enable_dimensions' => 'yes',
+		'jigoshop_dimension_unit' => 'cm',
+		'jigoshop_product_thumbnail_columns' => '3',
+		'jigoshop_enable_related_products' => 'yes',
+		'jigoshop_manage_stock' => 'yes',
+		'jigoshop_show_stock' => 'yes',
+		'jigoshop_notify_low_stock' => 'yes',
+		'jigoshop_notify_low_stock_amount' => '2',
+		'jigoshop_notify_no_stock' => 'yes',
+		'jigoshop_notify_no_stock_amount' => '0',
+		'jigoshop_hide_no_stock_product' => 'no',
+		'jigoshop_calc_taxes' => 'yes',
+		'jigoshop_tax_after_coupon' => 'yes',
+		'jigoshop_prices_include_tax' => 'yes',
+		'jigoshop_tax_classes' => sprintf(__('Reduced Rate%sZero Rate', 'jigoshop'), PHP_EOL),
+		'jigoshop_tax_rates' => '',
+		'jigoshop_calc_shipping' => 'yes',
+		'jigoshop_enable_shipping_calc' => 'yes',
+		'jigoshop_ship_to_billing_address_only' => 'no',
+		'jigoshop_show_checkout_shipping_fields' => 'no',
+		'jigoshop_default_gateway' => 'cheque',
+		'jigoshop_error_disappear_time' => 8000,
+		'jigoshop_message_disappear_time' => 4000,
+	);
+
+	$options = Jigoshop_Base::get_options();
+	foreach($defaults as $option => $value){
+		if(!$options->exists($option)){
+			$options->add($option, $value);
+		}
 	}
 }
 
@@ -112,7 +203,7 @@ function jigoshop_default_options() {
 function jigoshop_create_pages() {
 
     $jigoshop_options = Jigoshop_Base::get_options();
-    
+
 	// start out with basic page parameters, modify as we go
 	$page_data = array(
 		'post_status'    => 'publish',
@@ -125,8 +216,8 @@ function jigoshop_create_pages() {
 	);
 	jigoshop_create_single_page( 'shop', 'jigoshop_shop_page_id', $page_data );
 
-	$shop_page = $jigoshop_options->get_option( 'jigoshop_shop_page_id' );
-	$jigoshop_options->set_option( 'jigoshop_shop_redirect_page_id' , $shop_page );
+	$shop_page = $jigoshop_options->get( 'jigoshop_shop_page_id' );
+	$jigoshop_options->set( 'jigoshop_shop_redirect_page_id' , $shop_page );
 
 	$page_data['post_title']   = __('Cart', 'jigoshop');
 	$page_data['post_content'] = '[jigoshop_cart]';
@@ -194,12 +285,12 @@ function jigoshop_create_single_page( $page_slug, $page_option, $page_data ) {
 		$page_id = wp_insert_post( $page_data );
 	}
 
-	$jigoshop_options->set_option( $page_option, $page_id );
+	$jigoshop_options->set( $page_option, $page_id );
 
-	$ids = $jigoshop_options->get_option( 'jigoshop_page-ids' );
+	$ids = $jigoshop_options->get( 'jigoshop_page-ids' );
 	$ids[] = $page_id;
 
-	$jigoshop_options->set_option( 'jigoshop_page-ids', $ids );
+	$jigoshop_options->set( 'jigoshop_page-ids', $ids );
 
 }
 
@@ -212,7 +303,7 @@ function jigoshop_create_single_page( $page_slug, $page_option, $page_data ) {
  */
 function jigoshop_tables_install() {
 	global $wpdb;
-	
+
 	if((!defined('DIEONDBERROR'))&&(is_multisite())){define('DIEONDBERROR',true);}
 	$wpdb->show_errors();
 
@@ -232,7 +323,7 @@ function jigoshop_tables_install() {
 		$wpdb->print_error();
 		wp_die(__('We were not able to create a Jigoshop database table during installation! (jigoshop_attribute_taxonomies)','jigoshop'));
 	}
-		
+
     $sql = "CREATE TABLE IF NOT EXISTS ". $wpdb->prefix . "jigoshop_downloadable_product_permissions" ." (
         `product_id` 			mediumint(9) NOT NULL,
         `user_email`			varchar(200) NOT NULL,
@@ -244,7 +335,7 @@ function jigoshop_tables_install() {
 		$wpdb->print_error();
 		wp_die(__('We were not able to create a Jigoshop database table during installation! (jigoshop_downloadable_product_permissions)','jigoshop'));
 	}
-	
+
     $sql = "CREATE TABLE IF NOT EXISTS ". $wpdb->prefix . "jigoshop_termmeta" ." (
 		`meta_id` 				bigint(20) NOT NULL AUTO_INCREMENT,
       	`jigoshop_term_id` 		bigint(20) NOT NULL,
@@ -255,7 +346,7 @@ function jigoshop_tables_install() {
 		$wpdb->print_error();
 		wp_die(__('We were not able to create a Jigoshop database table during installation! (jigoshop_termmeta)','jigoshop'));
 	}
-    
+
     $wpdb->hide_errors();
 
 }
@@ -285,6 +376,7 @@ function jigoshop_default_taxonomies() {
 	}
 
 	$order_status = array(
+		'new',
 		'pending',
 		'on-hold',
 		'processing',

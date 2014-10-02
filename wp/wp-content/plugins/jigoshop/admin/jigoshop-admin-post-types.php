@@ -12,9 +12,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 // Add filter to ensure the text is context relevant when updated
@@ -62,11 +62,11 @@ function jigoshop_edit_product_columns($columns) {
     $columns["featured"] = '<img src="' . jigoshop::assets_url() . '/assets/images/head_featured.png" alt="' . __('Featured', 'jigoshop') . '" />';
 
 	$columns["product-type"] = __("Type", 'jigoshop');
-	if( $jigoshop_options->get_option('jigoshop_enable_sku', true) == 'yes' ) {
+	if( $jigoshop_options->get('jigoshop_enable_sku', true) == 'yes' ) {
 		$columns["product-type"] .= ' &amp; ' . __("SKU", 'jigoshop');
 	}
 
-	if ( $jigoshop_options->get_option('jigoshop_manage_stock')=='yes' ) {
+	if ( $jigoshop_options->get('jigoshop_manage_stock')=='yes' ) {
 	 	$columns["stock"] = __("Stock", 'jigoshop');
 	}
 
@@ -136,7 +136,7 @@ function jigoshop_custom_product_columns($column) {
 		case "product-type" :
 			echo __(ucwords($product->product_type), 'jigoshop');
 			echo '<br/>';
-			if ( $jigoshop_options->get_option('jigoshop_enable_sku', true) == 'yes' && $sku = get_post_meta( $post->ID, 'sku', true )) {
+			if ( $jigoshop_options->get('jigoshop_enable_sku', true) == 'yes' && $sku = get_post_meta( $post->ID, 'sku', true )) {
 				echo $sku;
 			}
 			else {
@@ -357,7 +357,7 @@ function jigoshop_custom_order_columns($column) {
             ?></dd>
                 <?php if ($order->billing_email) : ?><dt><?php _e('Billing Email:', 'jigoshop'); ?></dt>
                     <dd><a href="mailto:<?php echo $order->billing_email; ?>"><?php echo $order->billing_email; ?></a></dd><?php endif; ?>
-                <?php if ($order->billing_phone) : ?><dt><?php _e('Billing Tel:', 'jigoshop'); ?></dt>
+                <?php if ($order->billing_phone) : ?><dt><?php _e('Billing Phone:', 'jigoshop'); ?></dt>
                     <dd><?php echo $order->billing_phone; ?></dd><?php endif; ?>
             </dl>
             <?php
@@ -383,10 +383,14 @@ function jigoshop_custom_order_columns($column) {
         case "billing_and_shipping" :
             ?>
             <dl>
+	              <?php if($order->payment_method_title): ?>
                 <dt><?php _e('Payment:', 'jigoshop'); ?></dt>
                 <dd><?php echo $order->payment_method_title; ?></dd>
+	              <?php endif; ?>
+	              <?php if($order->shipping_service): ?>
                 <dt><?php _e('Shipping:', 'jigoshop'); ?></dt>
                 <dd><?php echo sprintf( __('%s', 'jigoshop'), $order->shipping_service); ?></dd>
+	              <?php endif; ?>
             </dl>
             <?php
             break;
@@ -394,8 +398,8 @@ function jigoshop_custom_order_columns($column) {
             ?>
             <table cellpadding="0" cellspacing="0" class="cost">
                 <tr>
-                    <?php if (($jigoshop_options->get_option('jigoshop_calc_taxes') == 'yes' && $order->has_compound_tax())
-                            || ($jigoshop_options->get_option('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0)) : ?>
+                    <?php if (($jigoshop_options->get('jigoshop_calc_taxes') == 'yes' && $order->has_compound_tax())
+                            || ($jigoshop_options->get('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0)) : ?>
                         <th><?php _e('Retail Price', 'jigoshop'); ?></th>
                     <?php else : ?>
                         <th><?php _e('Subtotal', 'jigoshop'); ?></th>
@@ -410,22 +414,25 @@ function jigoshop_custom_order_columns($column) {
                     </tr>
                     <?php
                 endif;
-                if ($jigoshop_options->get_option('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0) : ?>
+
+            	do_action('jigoshop_processing_fee_after_shipping');
+
+                if ($jigoshop_options->get('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0) : ?>
                     <tr>
                         <th><?php _e('Discount', 'jigoshop'); ?></th>
-                        <td><?php echo jigoshop_price($order->order_discount); ?></td>
+                        <td>-<?php echo jigoshop_price($order->order_discount); ?></td>
                     </tr>
                     <?php
                 endif;
-                if (($jigoshop_options->get_option('jigoshop_calc_taxes') == 'yes' && $order->has_compound_tax())
-                    || ($jigoshop_options->get_option('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0)) :
+                if (($jigoshop_options->get('jigoshop_calc_taxes') == 'yes' && $order->has_compound_tax())
+                    || ($jigoshop_options->get('jigoshop_tax_after_coupon') == 'yes' && $order->order_discount > 0)) :
                     ?><tr>
                         <th><?php _e('Subtotal', 'jigoshop'); ?></th>
                         <td><?php echo jigoshop_price($order->order_discount_subtotal); ?></td>
                     </tr>
                     <?php
                 endif;
-                if ($jigoshop_options->get_option('jigoshop_calc_taxes') == 'yes') :
+                if ($jigoshop_options->get('jigoshop_calc_taxes') == 'yes') :
                     foreach ($order->get_tax_classes() as $tax_class) :
                         if ($order->show_tax_entry($tax_class)) : ?>
                             <tr>
@@ -437,9 +444,9 @@ function jigoshop_custom_order_columns($column) {
                     endforeach;
                 endif;
 
-                if ($jigoshop_options->get_option('jigoshop_tax_after_coupon') == 'no' && $order->order_discount > 0) : ?><tr>
+                if ($jigoshop_options->get('jigoshop_tax_after_coupon') == 'no' && $order->order_discount > 0) : ?><tr>
                         <th><?php _e('Discount', 'jigoshop'); ?></th>
-                        <td><?php echo jigoshop_price($order->order_discount); ?></td>
+                        <td>-<?php echo jigoshop_price($order->order_discount); ?></td>
                     </tr><?php endif; ?>
                 <tr>
                     <th><?php _e('Total', 'jigoshop'); ?></th>
@@ -529,7 +536,7 @@ function jigoshop_admin_product_search( $wp ) {
 
 		return false;
     }
-	
+
 	/* Orders Text Search */
 	if ( $wp->query_vars['post_type'] == 'shop_order' && 'PID:' != substr( $wp->query_vars['s'], 0, 4 ) ) {
 
@@ -539,41 +546,41 @@ function jigoshop_admin_product_search( $wp ) {
 		//anything to search?
 		if(empty($terms))
 			return false;
-		
+
 		/*
 			Get order ids for any order with terms in the post_title, post_content, or order_data meta_value
 		*/
 		//start of query
 		$sqlQuery = "SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->postmeta pm ON (p.ID = pm.post_id AND pm.meta_key = 'order_data') WHERE p.post_type = 'shop_order' AND ";
-		
+
 		//build where clauses for each term
 		$term_clauses = array();
 		foreach($terms as $term)
 		{
-			$term_clauses[] = "(p.ID = '" . $wpdb->escape($term) . "' OR
-							p.post_title LIKE '%" . $wpdb->escape($term) . "%' OR 														
-							p.post_content LIKE '%" . $wpdb->escape($term) . "%' OR
-							pm.meta_value LIKE '%" . $wpdb->escape($term) . "%')
+			$term_clauses[] = "(p.ID = '" . esc_sql($term) . "' OR
+							p.post_title LIKE '%" . esc_sql($term) . "%' OR
+							p.post_content LIKE '%" . esc_sql($term) . "%' OR
+							pm.meta_value LIKE '%" . esc_sql($term) . "%')
 						";
 		}
-		
+
 		//add where clauses to query
 		$sqlQuery .= implode(" AND ", $term_clauses);
-				
+
 		//get ids
 		$ids = $wpdb->get_col($sqlQuery);
-		
+
 		if(empty($ids))
 		{
 			//leave the query var set, should results in 0 results
 		}
 		else
-		{		
+		{
 			// Set search parameters
 			unset( $wp->query_vars['s'] );
-			$wp->query_vars['post__in'] = $ids;		
+			$wp->query_vars['post__in'] = $ids;
 		}
-			
+
 		return false;
     }
 
@@ -632,12 +639,14 @@ function jigoshop_custom_order_views($views) {
     $cancelled = (isset($_GET['shop_order_status']) && $_GET['shop_order_status'] == 'cancelled') ? 'current' : '';
     $refunded = (isset($_GET['shop_order_status']) && $_GET['shop_order_status'] == 'refunded') ? 'current' : '';
 
-    $views['pending'] = '<a class="' . esc_attr( $pending ) . '" href="?post_type=shop_order&amp;shop_order_status=pending">' . __('Pending', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->pending_count . ')</span></a>';
-    $views['onhold'] = '<a class="' . esc_attr( $onhold ) . '" href="?post_type=shop_order&amp;shop_order_status=on-hold">' . __('On-Hold', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->on_hold_count . ')</span></a>';
-    $views['processing'] = '<a class="' . esc_attr( $processing ) . '" href="?post_type=shop_order&amp;shop_order_status=processing">' . __('Processing', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->processing_count . ')</span></a>';
-    $views['completed'] = '<a class="' . esc_attr( $completed ) . '" href="?post_type=shop_order&amp;shop_order_status=completed">' . __('Completed', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->completed_count . ')</span></a>';
-    $views['cancelled'] = '<a class="' . esc_attr( $cancelled ) . '" href="?post_type=shop_order&amp;shop_order_status=cancelled">' . __('Cancelled', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->cancelled_count . ')</span></a>';
-    $views['refunded'] = '<a class="' . esc_attr( $refunded ) . '" href="?post_type=shop_order&amp;shop_order_status=refunded">' . __('Refunded', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->refunded_count . ')</span></a>';
+		$dates = isset($_GET['m']) ? '&amp;m='.$_GET['m'] : '';
+
+    $views['pending'] = '<a class="' . esc_attr( $pending ) . '" href="?post_type=shop_order&amp;shop_order_status=pending'.$dates.'">' . __('Pending', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->pending_count . ')</span></a>';
+    $views['onhold'] = '<a class="' . esc_attr( $onhold ) . '" href="?post_type=shop_order&amp;shop_order_status=on-hold'.$dates.'">' . __('On-Hold', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->on_hold_count . ')</span></a>';
+    $views['processing'] = '<a class="' . esc_attr( $processing ) . '" href="?post_type=shop_order&amp;shop_order_status=processing'.$dates.'">' . __('Processing', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->processing_count . ')</span></a>';
+    $views['completed'] = '<a class="' . esc_attr( $completed ) . '" href="?post_type=shop_order&amp;shop_order_status=completed'.$dates.'">' . __('Completed', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->completed_count . ')</span></a>';
+    $views['cancelled'] = '<a class="' . esc_attr( $cancelled ) . '" href="?post_type=shop_order&amp;shop_order_status=cancelled'.$dates.'">' . __('Cancelled', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->cancelled_count . ')</span></a>';
+    $views['refunded'] = '<a class="' . esc_attr( $refunded ) . '" href="?post_type=shop_order&amp;shop_order_status=refunded'.$dates.'">' . __('Refunded', 'jigoshop') . ' <span class="count">(' . $jigoshop_orders->refunded_count . ')</span></a>';
 
     if ($pending || $onhold || $processing || $completed || $cancelled || $refunded) :
 
@@ -655,6 +664,13 @@ function jigoshop_custom_order_views($views) {
     endif;
 
     return $views;
+}
+
+add_action('restrict_manage_posts', 'jigoshop_order_status_field');
+
+function jigoshop_order_status_field()
+{
+	echo '<input type="hidden" name="shop_order_status" value="'.(isset($_GET['shop_order_status']) ? $_GET['shop_order_status'] : '').'" />';
 }
 
 /**
@@ -678,16 +694,6 @@ add_filter('bulk_actions-edit-shop_order', 'jigoshop_bulk_actions');
 
 function jigoshop_bulk_actions($actions) {
     return array();
-}
-
-/**
- * Adds downloadable product support for thickbox
- * @todo: not sure if this is the best place for this?
- */
-add_action('media_upload_downloadable_product', 'jigoshop_media_upload_downloadable_product');
-
-function jigoshop_media_upload_downloadable_product() {
-	do_action('media_upload_file');
 }
 
 /**

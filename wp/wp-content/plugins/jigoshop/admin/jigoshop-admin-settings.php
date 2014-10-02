@@ -13,9 +13,9 @@
  *
  * @package             Jigoshop
  * @category            Admin
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -398,7 +398,7 @@ function jigoshop_admin_option_display($options) {
 
 		case 'string':
 			?><tr>
-				<th scope="row"><?php echo $value['name']; ?></td>
+				<th scope="row"><?php echo $value['name']; ?></th>
 				<td><?php echo $value['desc']; ?></td>
 			  </tr><?php
 			break;

@@ -10,9 +10,9 @@
  *
  * @package             Jigoshop
  * @category            Checkout
- * @author              Jigowatt
- * @copyright           Copyright © 2011-2012 Jigowatt Ltd.
- * @license             http://jigoshop.com/license/commercial-edition
+ * @author              Jigoshop
+ * @copyright           Copyright © 2011-2014 Jigoshop.
+ * @license             GNU General Public License v3
  */
 
 /**
@@ -28,16 +28,16 @@ add_filter( 'jigoshop_payment_gateways', 'add_cod_gateway', 30 );
 class jigoshop_cod extends jigoshop_payment_gateway {
 
 	public function __construct() {
-		
+
         parent::__construct();
-		
+
         $this->id				= 'cod';
         $this->icon 			= '';
         $this->has_fields 		= false;
 
-		$this->enabled			= Jigoshop_Base::get_options()->get_option('jigoshop_cod_enabled');
-		$this->title 			= Jigoshop_Base::get_options()->get_option('jigoshop_cod_title');
-		$this->description 		= Jigoshop_Base::get_options()->get_option('jigoshop_cod_description');
+		$this->enabled			= Jigoshop_Base::get_options()->get('jigoshop_cod_enabled');
+		$this->title 			= Jigoshop_Base::get_options()->get('jigoshop_cod_title');
+		$this->description 		= Jigoshop_Base::get_options()->get('jigoshop_cod_description');
 
     	add_action('thankyou_cod', array(&$this, 'thankyou_page'));
     }
@@ -48,14 +48,14 @@ class jigoshop_cod extends jigoshop_payment_gateway {
 	 *
 	 * These will be installed on the Jigoshop_Options 'Payment Gateways' tab by the parent class 'jigoshop_payment_gateway'
 	 *
-	 */	
+	 */
 	protected function get_default_options() {
-	
+
 		$defaults = array();
-		
+
 		// Define the Section name for the Jigoshop_Options
 		$defaults[] = array( 'name' => __('Cash on Delivery', 'jigoshop'), 'type' => 'title', 'desc' => __('Allows cash payments. Good for offline stores or having customers pay at the time of receiving the product.', 'jigoshop') );
-		
+
 		// List each option in order of appearance with details
 		$defaults[] = array(
 			'name'		=> __('Enable Cash on Delivery','jigoshop'),
@@ -69,7 +69,7 @@ class jigoshop_cod extends jigoshop_payment_gateway {
 				'yes'			=> __('Yes', 'jigoshop')
 			)
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Method Title','jigoshop'),
 			'desc' 		=> '',
@@ -78,11 +78,11 @@ class jigoshop_cod extends jigoshop_payment_gateway {
 			'std' 		=> __('Cash on Delivery','jigoshop'),
 			'type' 		=> 'text'
 		);
-		
+
 		$defaults[] = array(
 			'name'		=> __('Customer Message','jigoshop'),
 			'desc' 		=> '',
-			'tip' 		=> __('Let the customer know the payee and where they should be sending the cod too and that their order won\'t be shipping until you receive it.','jigoshop'),
+			'tip' 		=> '',
 			'id' 		=> 'jigoshop_cod_description',
 			'std' 		=> __('Please pay to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'jigoshop'),
 			'type' 		=> 'longtext'
@@ -111,7 +111,7 @@ class jigoshop_cod extends jigoshop_payment_gateway {
 		$order = new jigoshop_order( $order_id );
 
 		// Mark as on-hold (we're awaiting the cod)
-		$order->update_status('on-hold', __('Waiting for cash delivery', 'jigoshop'));
+		$order->update_status('on-hold', __('Waiting for cash delivery.', 'jigoshop'));
 
 		// Remove cart
 		jigoshop_cart::empty_cart();

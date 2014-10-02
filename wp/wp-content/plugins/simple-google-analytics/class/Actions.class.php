@@ -9,7 +9,11 @@
 		
 		// Fichiers JS à charger
 		private $javascript = array(
-			'sga.js',
+			'admin' => array(
+				'sga.js',
+			),
+			'front' => array(
+			),
 		) ;
 		
 		
@@ -42,14 +46,42 @@
 		}
 		
 		// Ajout des Javascripts
+		// To fix .. Fichiers JS à charger
+		protected $adminJSFiles = array() ;
+		protected $frontJSFiles = array() ;
 		private function addJS() {
-			
 			// Pour chaque fichier JS
-			foreach ($this->javascript as $value) {
-				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $value, array('jquery')) ;
+			foreach ($this->javascript as $location => $files) {
+				switch ($location) {
+					case 'admin':
+						if (!empty($files)) {
+							$this->adminJSFiles = $files ;
+							add_action('admin_enqueue_scripts', array(&$this, 'addAdminJS')) ;
+						}
+						break ;
+					case 'front':
+						if (!empty($files)) {
+							$this->frontJSFiles = $files ;
+							add_action('wp_enqueue_scripts', array(&$this, 'addFrontJS')) ;
+						}
+						break ;
+					default:
+						break ;
+				}
 			}
 		}
-		
+
+		public function addAdminJS() {
+			foreach ($this->adminJSFiles as $file) {
+				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $file, array('jquery')) ;
+			}
+		}
+
+		public function addFrontJS() {
+			foreach ($this->frontJSFiles as $file) {
+				wp_enqueue_script(self::_NAMESPACE, plugins_url('', dirname(__FILE__)) . '/js/' . $file, array('jquery')) ;
+			}
+		}
 		
 		
 		///////////// ACTIONS
@@ -90,6 +122,7 @@
 			if (self::showCode()) {
 				
 				$options = array() ;
+				$demographic = false ;
 				
 				// Seulement si on a enregistré un ID
 				if (Settings::getVal('sga_analytics_id') !== false) {
@@ -104,15 +137,33 @@
 					if (Settings::getVal('sga_sitespeed_setting') == 1) {
 						$options['_trackPageLoadTime'] = null ;
 					}
+
+					// Option demographique / interets
+					if (Settings::getVal('sga_demographic_and_interest') == 1) {
+						$demographic = true ;
+					}
 					
 					$options['_trackPageview'] = null ;
 					
-					echo Output::googleCode($options) ;
+
+					echo "\n" ;
+					echo '<!-- Simple Google Analytics Begin -->' . "\n" ;
+					echo Output::googleCode($options, $demographic) ;
+					// Si l'option de tracking est activée
+					if (Settings::getVal('sga_track_links_downloads') == 1) {
+						echo Output::addTracking() ;
+					}
+					echo "\n" . '<!-- Simple Google Analytics End -->' ;
+					echo "\n" ;
 				}
 			}
+			else {
+
+				// Afficher un commentaire pour spécifier que le plugin est bien chargé
+				echo "\n" . '<!-- Simple Google Analytics - Code is not active while you are being logged. This option can be changed in the parameters -->' . "\n" ;
+			}
 		}
-		
-		
+
 		
 		///////////////// FILTRES
 		
