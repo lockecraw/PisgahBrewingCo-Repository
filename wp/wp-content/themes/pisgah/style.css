@@ -171,6 +171,7 @@ a.beer_link {display: block; color:#524b48; position: absolute; bottom: 16px; ri
 #beer_detail_image img {width: 150px; height:268px;}
 #beer_detail_title,#show_detail_title,.beer_detail_title {position: absolute; top: 38px; left: 189px; font-family:"LeagueGothicRegular", Impact;  font-size: 31px;  text-transform:uppercase; color: #524b48; letter-spacing: 1px; word-spacing: 1px;}
 #show_detail_title {left: 20px !important;}
+a:hover.beer_detail_hover { color: #016a3a!important;}
 #beer_detail_right, .beer_detail_right {padding-top: 86px;  margin-left: 189px;}
 #show_detail_right {padding-top: 86px;  margin-left: 20px;}
 
@@ -199,7 +200,8 @@ a.beer_link {display: block; color:#524b48; position: absolute; bottom: 16px; ri
 .beer_image_large img {width: 150px; height:268px;}
 .beer_content_large {padding-top: 1em;word-spacing: 1px; width: 387px; border-top: solid 1px #777; border-bottom: solid 1px #777; text-decoration: none; display: block; color: #524B48 !important; padding-bottom:1em; }
 .beer_content_large:hover {text-decoration: none; }
-.beer_detail_title a {color: #524B48 !important;}
+.beer_detail_title a {color: #524B48;}
+.beer_detail_title a:hover {color: #016a3a;}
 a.beer_name_large,a.beer_name_large:hover,a.beer_name_large:visited {display: block; position: absolute; top: 47px; left: 190px; width: 385px; font-family:"LeagueGothicRegular", Impact;  font-size: 30px;  text-transform:uppercase; color: #524B48 !important;}
 
 

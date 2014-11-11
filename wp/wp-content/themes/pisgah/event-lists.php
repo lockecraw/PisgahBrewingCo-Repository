@@ -33,12 +33,9 @@ $args = array( 'post_type' => 'shows', 'posts_per_page'=>-1, 'orderby'=>'meta_va
 			'key' => 'Start Time and Date',
 			'value' => $cut_date,
 			'compare' => '>'
-		),array(
-			'key' => 'Stage',
-			'value' => $stage_key[$post->post_name],
-			'compare' => 'IN'
-		)
+		),
 	));
+
 				$loop = new WP_Query( $args );
 				$count=0;
 				

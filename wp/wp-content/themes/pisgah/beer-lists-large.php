@@ -50,7 +50,7 @@ while ( $loop->have_posts() ) : $loop->the_post();
 	if($fullsize==''){$fullsize=get_stylesheet_directory_uri()."/images/beer_default.jpg";}
 	echo "<div class='beer_post_large add_shadow'>";
 	echo "<span class='beer_image_large'><img src='$fullsize'></span>";
-	echo "<div class='beer_detail_right'><div class='beer_detail_title'><span>".get_the_title()."</span></div>";
+	echo "<div class='beer_detail_right'><div class='beer_detail_title'><a href='".get_permalink()."'>".get_the_title()."</a></div>";
 	echo "<p><span class='beer_content_large'>".strip_tags(get_the_content())."</span></p></div>
 	</div>";	
 endwhile;?>
